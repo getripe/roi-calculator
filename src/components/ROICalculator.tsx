@@ -4,6 +4,7 @@ import { Slider } from "@/components/ui/slider";
 import { useToast } from "@/components/ui/use-toast";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { Check } from "lucide-react";
 
 const ROICalculator = () => {
   const [signups, setSignups] = useState(100);
@@ -113,8 +114,10 @@ const ROICalculator = () => {
                     <RadioGroupItem 
                       value={rate} 
                       id={`rate-${rate}`}
-                      className="aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
-                    />
+                      className="aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-white data-[state=checked]:text-primary relative"
+                    >
+                      <Check className="h-3 w-3 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 data-[state=checked]:opacity-100 transition-opacity" />
+                    </RadioGroupItem>
                     <Label htmlFor={`rate-${rate}`}>{rate}%</Label>
                   </div>
                 ))}
