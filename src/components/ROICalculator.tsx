@@ -54,12 +54,6 @@ const ROICalculator = () => {
     }).format(value);
   };
 
-  const calculateROI = () => {
-    const monthlyRevenue = signups * (parseInt(closeRate) / 100) * revenuePerSignup;
-    const annualRevenue = monthlyRevenue * 12;
-    return annualRevenue * 0.1;  // 10% of the original calculation
-  };
-
   const calculateToolCost = () => {
     if (signups <= 500) return 499;
     if (signups <= 1000) return 999;
@@ -70,7 +64,8 @@ const ROICalculator = () => {
   const calculateMonthlyROI = () => {
     const monthlyRevenue = signups * (parseInt(closeRate) / 100) * revenuePerSignup;
     const toolCost = calculateToolCost();
-    return ((monthlyRevenue - toolCost) / toolCost * 100).toFixed(0);
+    const roiMultiplier = (monthlyRevenue / toolCost);
+    return roiMultiplier.toFixed(1);  // Display as times (e.g., 10.5x)
   };
 
   return (
@@ -156,8 +151,8 @@ const ROICalculator = () => {
               </div>
             </div>
 
-            {/* Results Section */}
-            <div className="grid gap-4 md:grid-cols-3">
+          {/* Results Section */}
+          <div className="grid gap-4 md:grid-cols-3">
               <div className="p-6 bg-secondary rounded-lg">
                 <h3 className="text-xl font-semibold mb-4">Projected Revenue</h3>
                 <div className="text-4xl font-bold text-success animate-number-scroll">
@@ -178,14 +173,13 @@ const ROICalculator = () => {
                 </div>
               </div>
 
-              <div className="p-6 bg-secondary rounded-lg">
-                <h3 className="text-xl font-semibold mb-4">Monthly ROI</h3>
-                <div className="text-4xl font-bold text-primary animate-number-scroll">
-                  {calculateMonthlyROI()}
-                  <span className="text-base font-normal text-gray-600 ml-2">
-                    %
-                  </span>
-                </div>
+            <div className="p-6 bg-secondary rounded-lg">
+              <h3 className="text-xl font-semibold mb-4">Monthly ROI</h3>
+              <div className="text-4xl font-bold text-primary animate-number-scroll">
+                {calculateMonthlyROI()}
+                <span className="text-base font-normal text-gray-600 ml-2">
+                  x
+                </span>
               </div>
             </div>
           </div>
