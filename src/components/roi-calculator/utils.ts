@@ -7,9 +7,10 @@ export const formatCurrency = (value: number) => {
 };
 
 export const calculateToolCost = (signups: number) => {
-  if (signups <= 500) return 499;
-  if (signups <= 1000) return 999;
-  if (signups <= 5000) return 1999;
+  if (signups <= 100) return 499;
+  if (signups <= 200) return 999;
+  if (signups <= 500) return 1999;
+  if (signups <= 3000) return 2999;
   return 2999;
 };
 
