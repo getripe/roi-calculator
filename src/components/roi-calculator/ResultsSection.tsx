@@ -8,7 +8,7 @@ interface ResultsSectionProps {
 }
 
 export const ResultsSection = ({ signups, closeRate, revenuePerSignup }: ResultsSectionProps) => {
-  const yearlyRevenue = signups * 12 * (parseInt(closeRate) / 100) * revenuePerSignup;
+  const yearlyRevenue = signups * 12 * (parseInt(closeRate) / 100) * revenuePerSignup * 0.1; // Multiplied by 0.1
   const monthlyToolCost = calculateToolCost(signups);
   const roi = calculateROI(signups, closeRate, revenuePerSignup);
 
