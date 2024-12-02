@@ -2,10 +2,13 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { useToast } from "@/components/ui/use-toast";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 const ROICalculator = () => {
   const [signups, setSignups] = useState(100);
   const [revenuePerSignup, setRevenuePerSignup] = useState(50);
+  const [closeRate, setCloseRate] = useState("20");
   const { toast } = useToast();
 
   const handleSignupsChange = (value: number[]) => {
@@ -24,6 +27,14 @@ const ROICalculator = () => {
     });
   };
 
+  const handleCloseRateChange = (value: string) => {
+    setCloseRate(value);
+    toast({
+      title: "Updated Close Rate",
+      description: `Sales close rate set to ${value}%`,
+    });
+  };
+
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -33,7 +44,7 @@ const ROICalculator = () => {
   };
 
   const calculateROI = () => {
-    const monthlyRevenue = signups * revenuePerSignup;
+    const monthlyRevenue = signups * (parseInt(closeRate) / 100) * revenuePerSignup;
     const annualRevenue = monthlyRevenue * 12;
     return annualRevenue;
   };
@@ -78,6 +89,28 @@ const ROICalculator = () => {
               />
               <div className="text-2xl font-bold text-primary animate-number-scroll">
                 {formatCurrency(revenuePerSignup)} per closed deal
+              </div>
+            </div>
+
+            {/* Sales Close Rate Section */}
+            <div className="space-y-4">
+              <label className="text-lg font-medium">
+                Sales Close Rate
+              </label>
+              <RadioGroup
+                defaultValue="20"
+                onValueChange={handleCloseRateChange}
+                className="grid grid-cols-2 gap-4 sm:grid-cols-4"
+              >
+                {["20", "30", "40", "50"].map((rate) => (
+                  <div key={rate} className="flex items-center space-x-2">
+                    <RadioGroupItem value={rate} id={`rate-${rate}`} />
+                    <Label htmlFor={`rate-${rate}`}>{rate}%</Label>
+                  </div>
+                ))}
+              </RadioGroup>
+              <div className="text-2xl font-bold text-primary">
+                {closeRate}% close rate
               </div>
             </div>
 
