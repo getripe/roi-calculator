@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,24 @@ const ROICalculator = () => {
   const [domain, setDomain] = useState("chargebee.com");
   const [savedDomain, setSavedDomain] = useState("chargebee.com");
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Get the URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const companyUrl = urlParams.get('company');
+    
+    if (companyUrl) {
+      try {
+        // Extract domain from URL if needed
+        const url = new URL(companyUrl.startsWith('http') ? companyUrl : `https://${companyUrl}`);
+        const cleanDomain = url.hostname.replace('www.', '');
+        setDomain(cleanDomain);
+        setSavedDomain(cleanDomain);
+      } catch (error) {
+        console.error('Invalid URL parameter:', error);
+      }
+    }
+  }, []);
 
   const handleSaveDomain = () => {
     setSavedDomain(domain);
