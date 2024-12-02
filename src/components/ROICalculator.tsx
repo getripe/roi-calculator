@@ -103,6 +103,9 @@ const ROICalculator = () => {
             <div className="space-y-4">
               <label className="text-lg font-medium">
                 Sales Close Rate
+                <p className="text-sm text-gray-500 font-normal mt-1">
+                  Percentage of sales leads that result in customer conversions
+                </p>
               </label>
               <RadioGroup
                 defaultValue="20"
