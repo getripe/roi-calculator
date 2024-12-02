@@ -26,15 +26,15 @@ const ROICalculator = () => {
       <BackgroundSVG />
       <div className="relative z-10 max-w-4xl mx-auto">
         <Card className="p-8 shadow-lg bg-white/95 backdrop-blur-sm">
-          <div className="absolute -top-4 right-6 flex">
-            <Avatar className="w-20 h-20 border-2 border-white bg-white">
+          <div className="absolute -top-6 right-6 flex">
+            <Avatar className="w-24 h-24 border-2 border-white bg-white">
               <AvatarImage 
                 src="/lovable-uploads/229ce863-846e-4aa1-af45-90c16c04ddc5.png"
                 alt="Logo"
               />
               <AvatarFallback className="bg-primary text-primary-foreground">ST</AvatarFallback>
             </Avatar>
-            <Avatar className="w-20 h-20 border-2 border-white -ml-8 bg-white">
+            <Avatar className="w-24 h-24 border-2 border-white -ml-10 bg-white">
               <AvatarImage 
                 src={`https://www.google.com/s2/favicons?domain=${savedDomain}&sz=128`}
                 alt={`${savedDomain} Logo`}
