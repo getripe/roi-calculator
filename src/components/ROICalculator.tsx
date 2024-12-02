@@ -19,10 +19,10 @@ const ROICalculator = () => {
       <div className="relative z-10 max-w-4xl mx-auto">
         <Card className="p-8 shadow-lg bg-white/95 backdrop-blur-sm">
           <div className="absolute -top-3 right-6 flex">
-            <Avatar className="w-12 h-12 border-2 border-white">
+            <Avatar className="w-16 h-16 border-2 border-white">
               <AvatarFallback className="bg-primary text-primary-foreground">JD</AvatarFallback>
             </Avatar>
-            <Avatar className="w-12 h-12 border-2 border-white -ml-6">
+            <Avatar className="w-16 h-16 border-2 border-white -ml-6">
               <AvatarFallback className="bg-success text-success-foreground">AB</AvatarFallback>
             </Avatar>
           </div>
