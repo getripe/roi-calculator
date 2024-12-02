@@ -11,10 +11,10 @@ import BackgroundSVG from "./BackgroundSVG";
 const content = {
   title: "ROI Calculator",
   signups: {
-    label: "Average Monthly Signups",
+    label: "Qualified Signups", // Updated label
     description: "The number of qualified signups (MQLs / ICP / PQLs etc) that your team wants to get in contact with",
     toastTitle: "Updated Signups",
-    toastDescription: (value: number) => `Monthly signups set to ${value}`,
+    toastDescription: (value: number) => `Qualified signups set to ${value}`,
   },
   revenue: {
     label: "Revenue per Closed Deal (Average Contract Value)",
@@ -248,3 +248,4 @@ const ROICalculator = () => {
 };
 
 export default ROICalculator;
+
