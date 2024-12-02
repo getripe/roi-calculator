@@ -67,6 +67,12 @@ const ROICalculator = () => {
     return 2999;
   };
 
+  const calculateMonthlyROI = () => {
+    const monthlyRevenue = signups * (parseInt(closeRate) / 100) * revenuePerSignup;
+    const toolCost = calculateToolCost();
+    return ((monthlyRevenue - toolCost) / toolCost * 100).toFixed(0);
+  };
+
   return (
     <div className="relative min-h-screen p-8">
       <BackgroundSVG />
@@ -151,7 +157,7 @@ const ROICalculator = () => {
             </div>
 
             {/* Results Section */}
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-3">
               <div className="p-6 bg-secondary rounded-lg">
                 <h3 className="text-xl font-semibold mb-4">Projected Revenue</h3>
                 <div className="text-4xl font-bold text-success animate-number-scroll">
@@ -168,6 +174,16 @@ const ROICalculator = () => {
                   {formatCurrency(calculateToolCost())}
                   <span className="text-base font-normal text-gray-600 ml-2">
                     / month
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-6 bg-secondary rounded-lg">
+                <h3 className="text-xl font-semibold mb-4">Monthly ROI</h3>
+                <div className="text-4xl font-bold text-primary animate-number-scroll">
+                  {calculateMonthlyROI()}
+                  <span className="text-base font-normal text-gray-600 ml-2">
+                    %
                   </span>
                 </div>
               </div>
