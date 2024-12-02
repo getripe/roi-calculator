@@ -23,16 +23,42 @@ const ROICalculator = () => {
     // Get the URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const companyUrl = urlParams.get('company');
+    const qualifiedParam = urlParams.get('qualified');
+    const contractParam = urlParams.get('contract');
+    const closeRateParam = urlParams.get('sales');
     
     if (companyUrl) {
       try {
-        // Extract domain from URL if needed
         const url = new URL(companyUrl.startsWith('http') ? companyUrl : `https://${companyUrl}`);
         const cleanDomain = url.hostname.replace('www.', '');
         setDomain(cleanDomain);
         setSavedDomain(cleanDomain);
       } catch (error) {
         console.error('Invalid URL parameter:', error);
+      }
+    }
+
+    // Set qualified signups if provided
+    if (qualifiedParam) {
+      const qualifiedValue = parseInt(qualifiedParam);
+      if (!isNaN(qualifiedValue) && qualifiedValue >= 0 && qualifiedValue <= inputConfig.signups.max) {
+        setSignups(qualifiedValue);
+      }
+    }
+
+    // Set contract value if provided
+    if (contractParam) {
+      const contractValue = parseInt(contractParam);
+      if (!isNaN(contractValue) && contractValue >= 0 && contractValue <= inputConfig.revenue.max) {
+        setRevenuePerSignup(contractValue);
+      }
+    }
+
+    // Set close rate if provided
+    if (closeRateParam) {
+      const closeRateValue = closeRateParam;
+      if (inputConfig.closeRates.includes(closeRateValue)) {
+        setCloseRate(closeRateValue);
       }
     }
   }, []);
