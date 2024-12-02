@@ -68,8 +68,8 @@ const ROICalculator = () => {
       <div className="relative z-10 max-w-4xl mx-auto">
         <Card className="p-8 shadow-lg bg-white/95 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center mb-4">
-              Calculate Your Potential Revenue
+            <CardTitle className="text-2xl font-bold text-center mb-4" asChild>
+              <h1>Calculate Your Potential Revenue</h1>
             </CardTitle>
           </CardHeader>
           
