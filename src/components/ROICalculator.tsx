@@ -151,14 +151,14 @@ const ROICalculator = () => {
               </div>
             </div>
 
-          {/* Results Section */}
-          <div className="grid gap-4 md:grid-cols-3">
+            {/* Results Section */}
+            <div className="grid gap-4 md:grid-cols-3">
               <div className="p-6 bg-secondary rounded-lg">
                 <h3 className="text-xl font-semibold mb-4">Projected Revenue</h3>
                 <div className="text-4xl font-bold text-success animate-number-scroll">
-                  {formatCurrency(calculateROI())}
+                  {formatCurrency(signups * (parseInt(closeRate) / 100) * revenuePerSignup)}
                   <span className="text-base font-normal text-gray-600 ml-2">
-                    / year
+                    / month
                   </span>
                 </div>
               </div>
@@ -173,13 +173,14 @@ const ROICalculator = () => {
                 </div>
               </div>
 
-            <div className="p-6 bg-secondary rounded-lg">
-              <h3 className="text-xl font-semibold mb-4">Monthly ROI</h3>
-              <div className="text-4xl font-bold text-primary animate-number-scroll">
-                {calculateMonthlyROI()}
-                <span className="text-base font-normal text-gray-600 ml-2">
-                  x
-                </span>
+              <div className="p-6 bg-secondary rounded-lg">
+                <h3 className="text-xl font-semibold mb-4">Monthly ROI</h3>
+                <div className="text-4xl font-bold text-primary animate-number-scroll">
+                  {calculateMonthlyROI()}
+                  <span className="text-base font-normal text-gray-600 ml-2">
+                    x
+                  </span>
+                </div>
               </div>
             </div>
           </div>
