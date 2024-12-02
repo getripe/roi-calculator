@@ -3,6 +3,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Share2 } from "lucide-react";
 import BackgroundSVG from "./BackgroundSVG";
 import { content, inputConfig } from "./roi-calculator/config";
 import { SignupsSection } from "./roi-calculator/SignupsSection";
@@ -67,6 +68,33 @@ const ROICalculator = () => {
     setSavedDomain(domain);
   };
 
+  const handleShare = () => {
+    const baseUrl = window.location.origin + window.location.pathname;
+    const params = new URLSearchParams();
+    
+    // Add all parameters
+    params.set('company', domain);
+    params.set('qualified', signups.toString());
+    params.set('contract', revenuePerSignup.toString());
+    params.set('rate', closeRate);
+
+    const shareableUrl = `${baseUrl}?${params.toString()}`;
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(shareableUrl).then(() => {
+      toast({
+        title: "URL Copied!",
+        description: "Share this URL to show your ROI calculation",
+      });
+    }).catch(() => {
+      toast({
+        title: "Couldn't copy URL",
+        description: "Please copy this URL manually: " + shareableUrl,
+        variant: "destructive",
+      });
+    });
+  };
+
   return (
     <div className="relative min-h-screen p-8">
       <BackgroundSVG />
@@ -102,6 +130,15 @@ const ROICalculator = () => {
                 onClick={handleSaveDomain}
               >
                 Save
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleShare}
+                className="gap-2"
+              >
+                <Share2 className="h-4 w-4" />
+                Share
               </Button>
             </div>
           </CardHeader>
