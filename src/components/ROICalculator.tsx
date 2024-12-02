@@ -46,7 +46,7 @@ const ROICalculator = () => {
   const calculateROI = () => {
     const monthlyRevenue = signups * (parseInt(closeRate) / 100) * revenuePerSignup;
     const annualRevenue = monthlyRevenue * 12;
-    return annualRevenue;
+    return annualRevenue * 0.1;  // 10% of the original calculation
   };
 
   return (
