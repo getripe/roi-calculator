@@ -48,7 +48,7 @@ export const SignupsSection = ({ signups, onSignupsChange }: SignupsSectionProps
         </TooltipProvider>
       </div>
       <Slider
-        defaultValue={[inputConfig.signups.default]}
+        value={[signups]}
         max={inputConfig.signups.max}
         step={inputConfig.signups.step}
         onValueChange={handleSignupsChange}

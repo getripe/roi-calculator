@@ -39,7 +39,7 @@ export const RevenueSection = ({ revenuePerSignup, onRevenueChange }: RevenueSec
         </TooltipProvider>
       </div>
       <Slider
-        defaultValue={[inputConfig.revenue.default]}
+        value={[revenuePerSignup]}
         max={inputConfig.revenue.max}
         step={inputConfig.revenue.step}
         onValueChange={handleRevenueChange}
