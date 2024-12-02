@@ -234,7 +234,7 @@ const ROICalculator = () => {
                 <h3 className="text-xl font-semibold mb-4">{content.results.roi.title}</h3>
                 <div className="text-4xl font-bold text-primary animate-number-scroll">
                   {calculateROI()}
-                  <span className="text-base font-normal text-gray-600 ml-2">
+                  <span className="text-base font-normal text-primary ml-2">
                     {content.results.roi.suffix}
                   </span>
                 </div>
