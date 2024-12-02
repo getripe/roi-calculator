@@ -13,10 +13,21 @@ const ROICalculator = () => {
   const { toast } = useToast();
 
   const handleSignupsChange = (value: number[]) => {
-    setSignups(value[0]);
+    let adjustedValue = value[0];
+    
+    // Adjust the value based on the ranges
+    if (adjustedValue <= 1500) {
+      adjustedValue = Math.round(adjustedValue / 50) * 50;
+    } else if (adjustedValue <= 3000) {
+      adjustedValue = Math.round(adjustedValue / 100) * 100;
+    } else {
+      adjustedValue = Math.round(adjustedValue / 500) * 500;
+    }
+
+    setSignups(adjustedValue);
     toast({
       title: "Updated Signups",
-      description: `Monthly signups set to ${value[0]}`,
+      description: `Monthly signups set to ${adjustedValue}`,
     });
   };
 
@@ -69,8 +80,8 @@ const ROICalculator = () => {
               </label>
               <Slider
                 defaultValue={[0]}
-                max={3000}
-                step={50}
+                max={10000}
+                step={1}
                 onValueChange={handleSignupsChange}
                 className="py-4"
               />
