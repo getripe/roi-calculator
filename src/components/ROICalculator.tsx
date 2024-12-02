@@ -49,7 +49,7 @@ const ROICalculator = () => {
                 placeholder="Enter domain (e.g., example.com)"
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
-                className="max-w-xs ml-4"
+                className="max-w-xs ml-4 text-4xl font-bold border-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent p-0"
               />
             </div>
           </CardHeader>
