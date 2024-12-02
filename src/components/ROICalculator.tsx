@@ -7,63 +7,120 @@ import { Label } from "@/components/ui/label";
 import { Check } from "lucide-react";
 import BackgroundSVG from "./BackgroundSVG";
 
+// Configuration object for all text content
+const content = {
+  title: "ROI Calculator",
+  signups: {
+    label: "Average Monthly Signups",
+    description: "The number of qualified signups (MQLs / ICP / PQLs etc) that your team wants to get in contact with",
+    toastTitle: "Updated Signups",
+    toastDescription: (value: number) => `Monthly signups set to ${value}`,
+  },
+  revenue: {
+    label: "Revenue per Closed Deal (Average Contract Value)",
+    description: "The average contract value",
+    toastTitle: "Updated Revenue per Closed Deal",
+    toastDescription: (value: string) => `Revenue per closed deal set to ${value}`,
+  },
+  closeRate: {
+    label: "Sales Close Rate",
+    description: "Percentage of sales leads that result in customer conversions",
+    toastTitle: "Updated Close Rate",
+    toastDescription: (value: string) => `Sales close rate set to ${value}%`,
+  },
+  results: {
+    projectedRevenue: {
+      title: "Projected Revenue",
+      period: "/ year"
+    },
+    toolCost: {
+      title: "Cost of Tool",
+      period: "/ month"
+    },
+    roi: {
+      title: "Yearly ROI",
+      suffix: "x"
+    }
+  }
+};
+
+// Configuration for numerical inputs
+const inputConfig = {
+  signups: {
+    default: 500,
+    max: 3000,
+    step: 1,
+    roundingRules: [
+      { threshold: 1000, step: 50 },
+      { threshold: 3000, step: 100 }
+    ]
+  },
+  revenue: {
+    default: 500,
+    max: 10000,
+    step: 500
+  },
+  closeRates: ["20", "30", "40", "50"]
+};
+
+// Utility functions
+const formatCurrency = (value: number) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(value);
+};
+
+const calculateToolCost = (signups: number) => {
+  if (signups <= 500) return 499;
+  if (signups <= 1000) return 999;
+  if (signups <= 5000) return 1999;
+  return 2999;
+};
+
 const ROICalculator = () => {
-  const [signups, setSignups] = useState(500);  // Default at 500 signups
-  const [revenuePerSignup, setRevenuePerSignup] = useState(500);
-  const [closeRate, setCloseRate] = useState("20");
+  const [signups, setSignups] = useState(inputConfig.signups.default);
+  const [revenuePerSignup, setRevenuePerSignup] = useState(inputConfig.revenue.default);
+  const [closeRate, setCloseRate] = useState(inputConfig.closeRates[0]);
   const { toast } = useToast();
 
   const handleSignupsChange = (value: number[]) => {
     let adjustedValue = value[0];
     
-    // Adjust the value based on the ranges
-    if (adjustedValue <= 1000) {
-      adjustedValue = Math.round(adjustedValue / 50) * 50;
-    } else if (adjustedValue <= 3000) {
-      adjustedValue = Math.round(adjustedValue / 100) * 100;
+    for (const rule of inputConfig.signups.roundingRules) {
+      if (adjustedValue <= rule.threshold) {
+        adjustedValue = Math.round(adjustedValue / rule.step) * rule.step;
+        break;
+      }
     }
 
     setSignups(adjustedValue);
     toast({
-      title: "Updated Signups",
-      description: `Monthly signups set to ${adjustedValue}`,
+      title: content.signups.toastTitle,
+      description: content.signups.toastDescription(adjustedValue),
     });
   };
 
   const handleRevenueChange = (value: number[]) => {
     setRevenuePerSignup(value[0]);
     toast({
-      title: "Updated Revenue per Closed Deal",
-      description: `Revenue per closed deal set to ${formatCurrency(value[0])}`,
+      title: content.revenue.toastTitle,
+      description: content.revenue.toastDescription(formatCurrency(value[0])),
     });
   };
 
   const handleCloseRateChange = (value: string) => {
     setCloseRate(value);
     toast({
-      title: "Updated Close Rate",
-      description: `Sales close rate set to ${value}%`,
+      title: content.closeRate.toastTitle,
+      description: content.closeRate.toastDescription(value),
     });
   };
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 0,
-    }).format(value);
-  };
-
-  const calculateToolCost = () => {
-    if (signups <= 500) return 499;
-    if (signups <= 1000) return 999;
-    if (signups <= 5000) return 1999;
-    return 2999;
-  };
-
-  const calculateMonthlyROI = () => {
+  const calculateROI = () => {
     const yearlyRevenue = signups * 12 * (parseInt(closeRate) / 100) * revenuePerSignup;
-    const monthlyToolCost = calculateToolCost();
+    const monthlyToolCost = calculateToolCost(signups);
     const roiMultiplier = (yearlyRevenue / (monthlyToolCost * 12));
     return roiMultiplier.toFixed(1);
   };
@@ -75,7 +132,7 @@ const ROICalculator = () => {
         <Card className="p-8 shadow-lg bg-white/95 backdrop-blur-sm">
           <CardHeader className="p-0 mb-8">
             <CardTitle className="text-4xl font-bold text-left">
-              ROI Calculator
+              {content.title}
             </CardTitle>
           </CardHeader>
           
@@ -83,15 +140,15 @@ const ROICalculator = () => {
             {/* Monthly Signups Slider */}
             <div className="space-y-4">
               <label className="text-lg font-medium">
-                Average Monthly Signups
+                {content.signups.label}
                 <p className="text-sm text-gray-500 font-normal mt-1">
-                  The number of qualified signups (MQLs / ICP / PQLs etc) that your team wants to get in contact with
+                  {content.signups.description}
                 </p>
               </label>
               <Slider
-                defaultValue={[500]}
-                max={3000}
-                step={1}
+                defaultValue={[inputConfig.signups.default]}
+                max={inputConfig.signups.max}
+                step={inputConfig.signups.step}
                 onValueChange={handleSignupsChange}
                 className="py-4"
               />
@@ -103,15 +160,15 @@ const ROICalculator = () => {
             {/* Revenue Per Closed Deal Slider */}
             <div className="space-y-4">
               <label className="text-lg font-medium">
-                Revenue per Closed Deal (Average Contract Value)
+                {content.revenue.label}
                 <p className="text-sm text-gray-500 font-normal mt-1">
-                  The average contract value
+                  {content.revenue.description}
                 </p>
               </label>
               <Slider
-                defaultValue={[500]}
-                max={10000}
-                step={500}
+                defaultValue={[inputConfig.revenue.default]}
+                max={inputConfig.revenue.max}
+                step={inputConfig.revenue.step}
                 onValueChange={handleRevenueChange}
                 className="py-4"
               />
@@ -123,17 +180,17 @@ const ROICalculator = () => {
             {/* Sales Close Rate Section */}
             <div className="space-y-4">
               <label className="text-lg font-medium">
-                Sales Close Rate
+                {content.closeRate.label}
                 <p className="text-sm text-gray-500 font-normal mt-1">
-                  Percentage of sales leads that result in customer conversions
+                  {content.closeRate.description}
                 </p>
               </label>
               <RadioGroup
-                defaultValue="20"
+                defaultValue={inputConfig.closeRates[0]}
                 onValueChange={handleCloseRateChange}
                 className="grid grid-cols-2 gap-4 sm:grid-cols-4"
               >
-                {["20", "30", "40", "50"].map((rate) => (
+                {inputConfig.closeRates.map((rate) => (
                   <div key={rate} className="flex items-center space-x-2">
                     <RadioGroupItem 
                       value={rate} 
@@ -154,31 +211,31 @@ const ROICalculator = () => {
             {/* Results Section */}
             <div className="grid gap-4 md:grid-cols-3">
               <div className="p-6 bg-secondary rounded-lg">
-                <h3 className="text-xl font-semibold mb-4">Projected Revenue</h3>
+                <h3 className="text-xl font-semibold mb-4">{content.results.projectedRevenue.title}</h3>
                 <div className="text-4xl font-bold text-success animate-number-scroll">
                   {formatCurrency(signups * 12 * (parseInt(closeRate) / 100) * revenuePerSignup)}
                   <span className="text-base font-normal text-gray-600 ml-2">
-                    / year
+                    {content.results.projectedRevenue.period}
                   </span>
                 </div>
               </div>
 
               <div className="p-6 bg-secondary rounded-lg">
-                <h3 className="text-xl font-semibold mb-4">Cost of Tool</h3>
+                <h3 className="text-xl font-semibold mb-4">{content.results.toolCost.title}</h3>
                 <div className="text-4xl font-bold text-primary animate-number-scroll">
-                  {formatCurrency(calculateToolCost())}
+                  {formatCurrency(calculateToolCost(signups))}
                   <span className="text-base font-normal text-gray-600 ml-2">
-                    / month
+                    {content.results.toolCost.period}
                   </span>
                 </div>
               </div>
 
               <div className="p-6 bg-secondary rounded-lg">
-                <h3 className="text-xl font-semibold mb-4">Yearly ROI</h3>
+                <h3 className="text-xl font-semibold mb-4">{content.results.roi.title}</h3>
                 <div className="text-4xl font-bold text-primary animate-number-scroll">
-                  {calculateMonthlyROI()}
+                  {calculateROI()}
                   <span className="text-base font-normal text-gray-600 ml-2">
-                    x
+                    {content.results.roi.suffix}
                   </span>
                 </div>
               </div>
