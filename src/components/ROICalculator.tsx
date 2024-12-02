@@ -66,10 +66,6 @@ const ROICalculator = () => {
     <div className="relative min-h-screen p-8">
       <BackgroundSVG />
       <div className="relative z-10 max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8 text-white">
-          ROI Calculator
-        </h1>
-        
         <Card className="p-8 shadow-lg bg-white/95 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-center mb-4">
