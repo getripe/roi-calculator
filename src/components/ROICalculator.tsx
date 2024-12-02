@@ -5,6 +5,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 const ROICalculator = () => {
   const [signups, setSignups] = useState(100);
+  const [revenuePerSignup, setRevenuePerSignup] = useState(50);
   const { toast } = useToast();
 
   const handleSignupsChange = (value: number[]) => {
@@ -12,6 +13,14 @@ const ROICalculator = () => {
     toast({
       title: "Updated Signups",
       description: `Monthly signups set to ${value[0]}`,
+    });
+  };
+
+  const handleRevenueChange = (value: number[]) => {
+    setRevenuePerSignup(value[0]);
+    toast({
+      title: "Updated Revenue Per Signup",
+      description: `Revenue per signup set to ${formatCurrency(value[0])}`,
     });
   };
 
@@ -24,8 +33,7 @@ const ROICalculator = () => {
   };
 
   const calculateROI = () => {
-    // Example calculation - adjust based on your business model
-    const monthlyRevenue = signups * 50; // Assuming $50 per signup
+    const monthlyRevenue = signups * revenuePerSignup;
     const annualRevenue = monthlyRevenue * 12;
     return annualRevenue;
   };
@@ -53,6 +61,23 @@ const ROICalculator = () => {
               />
               <div className="text-2xl font-bold text-primary animate-number-scroll">
                 {signups} signups/month
+              </div>
+            </div>
+
+            {/* Revenue Per Signup Slider */}
+            <div className="space-y-4">
+              <label className="text-lg font-medium">
+                Revenue Per Signup
+              </label>
+              <Slider
+                defaultValue={[50]}
+                max={500}
+                step={5}
+                onValueChange={handleRevenueChange}
+                className="py-4"
+              />
+              <div className="text-2xl font-bold text-primary animate-number-scroll">
+                {formatCurrency(revenuePerSignup)} per signup
               </div>
             </div>
 
