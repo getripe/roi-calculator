@@ -38,7 +38,7 @@ export const ResultsSection = ({ signups, closeRate, revenuePerSignup }: Results
         <h3 className="text-xl font-semibold mb-4">{content.results.roi.title}</h3>
         <div className="flex items-baseline text-4xl font-bold text-primary animate-number-scroll whitespace-nowrap">
           {roi}
-          <span className="text-4xl font-bold text-primary ml-1 text-sm">
+          <span className="text-4xl font-bold text-primary ml-1">
             {content.results.roi.suffix}
           </span>
         </div>
