@@ -45,25 +45,27 @@ const ROICalculator = () => {
             </Avatar>
           </div>
           
-          <CardHeader className="p-0 mb-8 flex flex-row items-center space-x-4">
-            <CardTitle className="text-4xl font-bold text-left flex-grow">
-              {content.title}
-            </CardTitle>
-            <div className="flex items-center gap-2">
-              <Input
-                type="text"
-                placeholder="Enter domain (e.g., example.com)"
-                value={domain}
-                onChange={(e) => setDomain(e.target.value)}
-                className="max-w-xs"
-              />
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={handleSaveDomain}
-              >
-                Save
-              </Button>
+          <CardHeader className="p-0 mb-8">
+            <div className="flex flex-col md:flex-row md:items-center gap-4">
+              <div className="flex items-center gap-2 order-2 md:order-1">
+                <Input
+                  type="text"
+                  placeholder="Enter domain (e.g., example.com)"
+                  value={domain}
+                  onChange={(e) => setDomain(e.target.value)}
+                  className="max-w-xs"
+                />
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={handleSaveDomain}
+                >
+                  Save
+                </Button>
+              </div>
+              <CardTitle className="text-4xl font-bold text-left order-1 md:order-2 md:flex-grow">
+                {content.title}
+              </CardTitle>
             </div>
           </CardHeader>
           
