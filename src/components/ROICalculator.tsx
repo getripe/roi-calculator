@@ -62,10 +62,10 @@ const ROICalculator = () => {
   };
 
   const calculateMonthlyROI = () => {
-    const monthlyRevenue = signups * (parseInt(closeRate) / 100) * revenuePerSignup;
-    const toolCost = calculateToolCost();
-    const roiMultiplier = (monthlyRevenue / toolCost);
-    return roiMultiplier.toFixed(1);  // Display as times (e.g., 10.5x)
+    const yearlyRevenue = signups * 12 * (parseInt(closeRate) / 100) * revenuePerSignup;
+    const monthlyToolCost = calculateToolCost();
+    const roiMultiplier = (yearlyRevenue / (monthlyToolCost * 12));
+    return roiMultiplier.toFixed(1);
   };
 
   return (
@@ -156,9 +156,9 @@ const ROICalculator = () => {
               <div className="p-6 bg-secondary rounded-lg">
                 <h3 className="text-xl font-semibold mb-4">Projected Revenue</h3>
                 <div className="text-4xl font-bold text-success animate-number-scroll">
-                  {formatCurrency(signups * (parseInt(closeRate) / 100) * revenuePerSignup)}
+                  {formatCurrency(signups * 12 * (parseInt(closeRate) / 100) * revenuePerSignup)}
                   <span className="text-base font-normal text-gray-600 ml-2">
-                    / month
+                    / year
                   </span>
                 </div>
               </div>
@@ -174,7 +174,7 @@ const ROICalculator = () => {
               </div>
 
               <div className="p-6 bg-secondary rounded-lg">
-                <h3 className="text-xl font-semibold mb-4">Monthly ROI</h3>
+                <h3 className="text-xl font-semibold mb-4">Yearly ROI</h3>
                 <div className="text-4xl font-bold text-primary animate-number-scroll">
                   {calculateMonthlyROI()}
                   <span className="text-base font-normal text-gray-600 ml-2">
