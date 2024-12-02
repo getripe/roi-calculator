@@ -5,6 +5,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Check } from "lucide-react";
+import BackgroundSVG from "./BackgroundSVG";
 
 const ROICalculator = () => {
   const [signups, setSignups] = useState(0);
@@ -62,13 +63,14 @@ const ROICalculator = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-violet-50 to-white p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8 text-primary">
+    <div className="relative min-h-screen p-8">
+      <BackgroundSVG />
+      <div className="relative z-10 max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-8 text-white">
           ROI Calculator
         </h1>
         
-        <Card className="p-8 shadow-lg">
+        <Card className="p-8 shadow-lg bg-white/95 backdrop-blur-sm">
           <div className="space-y-8">
             {/* Monthly Signups Slider */}
             <div className="space-y-4">
