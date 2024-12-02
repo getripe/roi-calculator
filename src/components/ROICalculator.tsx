@@ -9,7 +9,10 @@ import { SignupsSection } from "./roi-calculator/SignupsSection";
 import { RevenueSection } from "./roi-calculator/RevenueSection";
 import { CloseRateSection } from "./roi-calculator/CloseRateSection";
 import { ResultsSection } from "./roi-calculator/ResultsSection";
-import { Share2, SendHorizontal, LinkedinIcon, MessageCircle } from "lucide-react";
+import { FiShare2 } from "react-icons/fi";
+import { FiSend } from "react-icons/fi";
+import { FiLinkedin } from "react-icons/fi";
+import { FiMessageCircle } from "react-icons/fi";
 import { useToast } from "@/components/ui/use-toast";
 
 const ROICalculator = () => {
@@ -125,7 +128,7 @@ const ROICalculator = () => {
                 title="Copy link"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <Share2 className="w-4 h-4 stroke-[1.25]" />
+                <FiShare2 className="w-4 h-4" />
               </Button>
               <Button
                 variant="outline"
@@ -134,7 +137,7 @@ const ROICalculator = () => {
                 title="Share via email"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <SendHorizontal className="w-4 h-4 stroke-[1.25]" />
+                <FiSend className="w-4 h-4" />
               </Button>
               <Button
                 variant="outline"
@@ -143,7 +146,7 @@ const ROICalculator = () => {
                 title="Share on LinkedIn"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <LinkedinIcon className="w-4 h-4 stroke-[1.25]" />
+                <FiLinkedin className="w-4 h-4" />
               </Button>
               <Button
                 variant="outline"
@@ -152,7 +155,7 @@ const ROICalculator = () => {
                 title="Share on Twitter"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <MessageCircle className="w-4 h-4 stroke-[1.25]" />
+                <FiMessageCircle className="w-4 h-4" />
               </Button>
             </div>
           </div>
