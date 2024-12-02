@@ -125,7 +125,7 @@ const ROICalculator = () => {
                 title="Copy link"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <Link className="w-4 h-4" />
+                <Link className="w-4 h-4 stroke-[1.25]" />
               </Button>
               <Button
                 variant="outline"
@@ -134,7 +134,7 @@ const ROICalculator = () => {
                 title="Share via email"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <Mail className="w-4 h-4" />
+                <Mail className="w-4 h-4 stroke-[1.25]" />
               </Button>
               <Button
                 variant="outline"
@@ -143,7 +143,7 @@ const ROICalculator = () => {
                 title="Share on LinkedIn"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <Linkedin className="w-4 h-4" />
+                <Linkedin className="w-4 h-4 stroke-[1.25]" />
               </Button>
               <Button
                 variant="outline"
@@ -152,7 +152,7 @@ const ROICalculator = () => {
                 title="Share on Twitter"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <Twitter className="w-4 h-4" />
+                <Twitter className="w-4 h-4 stroke-[1.25]" />
               </Button>
             </div>
           </div>
