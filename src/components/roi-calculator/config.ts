@@ -49,5 +49,5 @@ export const inputConfig = {
     max: 10000,
     step: 100
   },
-  closeRates: ["20", "30", "40", "50"]
+  closeRates: ["30", "20", "40", "50"]  // Moved "30" to first position as default
 };
