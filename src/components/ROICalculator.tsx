@@ -11,9 +11,11 @@ import { CloseRateSection } from "./roi-calculator/CloseRateSection";
 import { ResultsSection } from "./roi-calculator/ResultsSection";
 import { MdContentCopy } from "react-icons/md";
 import { MdEmail } from "react-icons/md";
-import { MdLinkedIn } from "react-icons/md";
-import { MdTwitter } from "react-icons/md";
+import { MdOutlineLinkedin } from "react-icons/md";
+import { MdOutlineTwitter } from "react-icons/md";
 import { useToast } from "@/components/ui/use-toast";
+
+// ... keep existing code (useState and other logic)
 
 const ROICalculator = () => {
   const [signups, setSignups] = useState(inputConfig.signups.default);
@@ -146,7 +148,7 @@ const ROICalculator = () => {
                 title="Share on LinkedIn"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <MdLinkedIn className="w-4 h-4" />
+                <MdOutlineLinkedin className="w-4 h-4" />
               </Button>
               <Button
                 variant="outline"
@@ -155,7 +157,7 @@ const ROICalculator = () => {
                 title="Share on Twitter"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <MdTwitter className="w-4 h-4" />
+                <MdOutlineTwitter className="w-4 h-4" />
               </Button>
             </div>
           </div>
