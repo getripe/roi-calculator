@@ -13,8 +13,8 @@ export const ResultsSection = ({ signups, closeRate, revenuePerSignup }: Results
   const roi = calculateROI(signups, closeRate, revenuePerSignup);
 
   return (
-    <div className="grid gap-4 md:grid-cols-6">
-      <div className="p-6 bg-secondary rounded-lg md:col-span-3">
+    <div className="grid gap-4 md:grid-cols-4">
+      <div className="p-6 bg-secondary rounded-lg md:col-span-2">
         <h3 className="text-xl font-semibold mb-4">{content.results.projectedRevenue.title}</h3>
         <div className="text-4xl font-bold text-success animate-number-scroll">
           {formatCurrency(yearlyRevenue)}
@@ -24,7 +24,7 @@ export const ResultsSection = ({ signups, closeRate, revenuePerSignup }: Results
         </div>
       </div>
 
-      <div className="p-6 bg-secondary rounded-lg md:col-span-2">
+      <div className="p-6 bg-secondary rounded-lg md:col-span-1">
         <h3 className="text-xl font-semibold mb-4">{content.results.toolCost.title}</h3>
         <div className="text-4xl font-bold text-primary animate-number-scroll">
           {formatCurrency(monthlyToolCost)}
