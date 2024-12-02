@@ -1,8 +1,9 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Check } from "lucide-react";
+import { Check, Info } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { content, inputConfig } from "./config";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface CloseRateSectionProps {
   closeRate: string;
@@ -22,12 +23,21 @@ export const CloseRateSection = ({ closeRate, onCloseRateChange }: CloseRateSect
 
   return (
     <div className="space-y-4">
-      <label className="text-lg font-medium">
-        {content.closeRate.label}
-        <p className="text-sm text-gray-500 font-normal mt-1">
-          {content.closeRate.description}
-        </p>
-      </label>
+      <div className="flex items-center gap-2">
+        <label className="text-lg font-medium">
+          {content.closeRate.label}
+        </label>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Info className="h-4 w-4 text-muted-foreground" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="max-w-xs">{content.closeRate.description}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
       <RadioGroup
         defaultValue={inputConfig.closeRates[0]}
         onValueChange={handleCloseRateChange}
