@@ -29,8 +29,8 @@ const ROICalculator = () => {
           <div className="absolute -top-3 right-6 flex">
             <Avatar className="w-16 h-16 border-2 border-white bg-white">
               <AvatarImage 
-                src="https://www.google.com/s2/favicons?domain=stripe.com&sz=128" 
-                alt="Stripe Logo"
+                src="/lovable-uploads/229ce863-846e-4aa1-af45-90c16c04ddc5.png"
+                alt="Logo"
               />
               <AvatarFallback className="bg-primary text-primary-foreground">ST</AvatarFallback>
             </Avatar>
