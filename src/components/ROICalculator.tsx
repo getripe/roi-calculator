@@ -9,10 +9,10 @@ import { SignupsSection } from "./roi-calculator/SignupsSection";
 import { RevenueSection } from "./roi-calculator/RevenueSection";
 import { CloseRateSection } from "./roi-calculator/CloseRateSection";
 import { ResultsSection } from "./roi-calculator/ResultsSection";
-import { MdShare } from "react-icons/md";
-import { MdSend } from "react-icons/md";
-import { MdOutlineLink } from "react-icons/md";
-import { MdMessage } from "react-icons/md";
+import { MdContentCopy } from "react-icons/md";
+import { MdEmail } from "react-icons/md";
+import { MdLinkedIn } from "react-icons/md";
+import { MdTwitter } from "react-icons/md";
 import { useToast } from "@/components/ui/use-toast";
 
 const ROICalculator = () => {
@@ -128,7 +128,7 @@ const ROICalculator = () => {
                 title="Copy link"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <MdShare className="w-4 h-4" />
+                <MdContentCopy className="w-4 h-4" />
               </Button>
               <Button
                 variant="outline"
@@ -137,7 +137,7 @@ const ROICalculator = () => {
                 title="Share via email"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <MdSend className="w-4 h-4" />
+                <MdEmail className="w-4 h-4" />
               </Button>
               <Button
                 variant="outline"
@@ -146,7 +146,7 @@ const ROICalculator = () => {
                 title="Share on LinkedIn"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <MdOutlineLink className="w-4 h-4" />
+                <MdLinkedIn className="w-4 h-4" />
               </Button>
               <Button
                 variant="outline"
@@ -155,7 +155,7 @@ const ROICalculator = () => {
                 title="Share on Twitter"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <MdMessage className="w-4 h-4" />
+                <MdTwitter className="w-4 h-4" />
               </Button>
             </div>
           </div>
