@@ -24,11 +24,11 @@ export const content = {
       period: "/ year"
     },
     toolCost: {
-      title: "Cost of Tool",
+      title: "Cost",
       period: "/ month"
     },
     roi: {
-      title: "ROI", // Updated from "Yearly ROI"
+      title: "ROI",
       suffix: "x"
     }
   }
