@@ -1,4 +1,3 @@
-// Configuration object for all text content
 export const content = {
   title: "ROI Calculator",
   signups: {
@@ -48,7 +47,7 @@ export const inputConfig = {
   revenue: {
     default: 500,
     max: 10000,
-    step: 500
+    step: 100
   },
   closeRates: ["20", "30", "40", "50"]
 };
