@@ -69,7 +69,7 @@ const ROICalculator = () => {
         <Card className="p-8 shadow-lg bg-white/95 backdrop-blur-sm">
           <CardHeader className="p-0 mb-8">
             <CardTitle className="text-4xl font-bold text-left">
-              Calculate Your Potential Revenue
+              ROI Calculator
             </CardTitle>
           </CardHeader>
           
