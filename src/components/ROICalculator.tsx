@@ -8,7 +8,7 @@ import { Check } from "lucide-react";
 import BackgroundSVG from "./BackgroundSVG";
 
 const ROICalculator = () => {
-  const [signups, setSignups] = useState(0);
+  const [signups, setSignups] = useState(1500);  // Changed default to 1500
   const [revenuePerSignup, setRevenuePerSignup] = useState(500);
   const [closeRate, setCloseRate] = useState("20");
   const { toast } = useToast();
@@ -81,8 +81,8 @@ const ROICalculator = () => {
                 </p>
               </label>
               <Slider
-                defaultValue={[0]}
-                max={10000}
+                defaultValue={[1500]}  // Changed default to 1500
+                max={5000}  // Changed max to 5000
                 step={1}
                 onValueChange={handleSignupsChange}
                 className="py-4"
