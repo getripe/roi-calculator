@@ -41,7 +41,7 @@ export const inputConfig = {
     max: 3000,
     step: 1,
     roundingRules: [
-      { threshold: 1000, step: 50 },
+      { threshold: 1000, step: 20 },
       { threshold: 3000, step: 100 }
     ]
   },
