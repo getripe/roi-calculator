@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 
 const ROICalculator = () => {
   const [signups, setSignups] = useState(100);
-  const [revenuePerSignup, setRevenuePerSignup] = useState(50);
+  const [revenuePerSignup, setRevenuePerSignup] = useState(500);
   const [closeRate, setCloseRate] = useState("20");
   const { toast } = useToast();
 
@@ -81,9 +81,9 @@ const ROICalculator = () => {
                 Revenue per Closed Deal (Average Contract Value)
               </label>
               <Slider
-                defaultValue={[50]}
-                max={500}
-                step={5}
+                defaultValue={[500]}
+                max={10000}
+                step={500}
                 onValueChange={handleRevenueChange}
                 className="py-4"
               />
