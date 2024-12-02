@@ -121,8 +121,8 @@ const ROICalculator = () => {
   const calculateROI = () => {
     const yearlyRevenue = signups * 12 * (parseInt(closeRate) / 100) * revenuePerSignup;
     const monthlyToolCost = calculateToolCost(signups);
-    const roiMultiplier = (yearlyRevenue / (monthlyToolCost * 12));
-    return roiMultiplier.toFixed(1);
+    const roiMultiplier = Math.floor((yearlyRevenue / (monthlyToolCost * 12)));
+    return roiMultiplier;
   };
 
   return (
