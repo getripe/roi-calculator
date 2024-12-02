@@ -60,6 +60,13 @@ const ROICalculator = () => {
     return annualRevenue * 0.1;  // 10% of the original calculation
   };
 
+  const calculateToolCost = () => {
+    if (signups <= 500) return 499;
+    if (signups <= 1000) return 999;
+    if (signups <= 5000) return 1999;
+    return 2999;
+  };
+
   return (
     <div className="relative min-h-screen p-8">
       <BackgroundSVG />
@@ -144,13 +151,25 @@ const ROICalculator = () => {
             </div>
 
             {/* Results Section */}
-            <div className="mt-8 p-6 bg-secondary rounded-lg">
-              <h3 className="text-xl font-semibold mb-4">Projected Revenue</h3>
-              <div className="text-4xl font-bold text-success animate-number-scroll">
-                {formatCurrency(calculateROI())}
-                <span className="text-base font-normal text-gray-600 ml-2">
-                  / year
-                </span>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="p-6 bg-secondary rounded-lg">
+                <h3 className="text-xl font-semibold mb-4">Projected Revenue</h3>
+                <div className="text-4xl font-bold text-success animate-number-scroll">
+                  {formatCurrency(calculateROI())}
+                  <span className="text-base font-normal text-gray-600 ml-2">
+                    / year
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-6 bg-secondary rounded-lg">
+                <h3 className="text-xl font-semibold mb-4">Cost of Tool</h3>
+                <div className="text-4xl font-bold text-primary animate-number-scroll">
+                  {formatCurrency(calculateToolCost())}
+                  <span className="text-base font-normal text-gray-600 ml-2">
+                    / month
+                  </span>
+                </div>
               </div>
             </div>
           </div>
