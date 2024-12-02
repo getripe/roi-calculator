@@ -19,14 +19,14 @@ const ROICalculator = () => {
       <div className="relative z-10 max-w-4xl mx-auto">
         <Card className="p-8 shadow-lg bg-white/95 backdrop-blur-sm">
           <div className="absolute -top-3 right-6 flex">
-            <Avatar className="w-16 h-16 border-2 border-white">
+            <Avatar className="w-16 h-16 border-2 border-white bg-white">
               <AvatarImage 
                 src="https://www.google.com/s2/favicons?domain=stripe.com&sz=128" 
                 alt="Stripe Logo"
               />
               <AvatarFallback className="bg-primary text-primary-foreground">ST</AvatarFallback>
             </Avatar>
-            <Avatar className="w-16 h-16 border-2 border-white -ml-6">
+            <Avatar className="w-16 h-16 border-2 border-white -ml-6 bg-white">
               <AvatarImage 
                 src="https://www.google.com/s2/favicons?domain=chargebee.com&sz=128" 
                 alt="Chargebee Logo"
