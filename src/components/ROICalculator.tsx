@@ -110,7 +110,11 @@ const ROICalculator = () => {
               >
                 {["20", "30", "40", "50"].map((rate) => (
                   <div key={rate} className="flex items-center space-x-2">
-                    <RadioGroupItem value={rate} id={`rate-${rate}`} />
+                    <RadioGroupItem 
+                      value={rate} 
+                      id={`rate-${rate}`}
+                      className="aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+                    />
                     <Label htmlFor={`rate-${rate}`}>{rate}%</Label>
                   </div>
                 ))}
