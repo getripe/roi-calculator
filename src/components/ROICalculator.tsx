@@ -15,7 +15,7 @@ import { useToast } from "@/components/ui/use-toast";
 const ROICalculator = () => {
   const [signups, setSignups] = useState(inputConfig.signups.default);
   const [revenuePerSignup, setRevenuePerSignup] = useState(inputConfig.revenue.default);
-  const [closeRate, setCloseRate] = useState(inputConfig.closeRates[0]);
+  const [closeRate, setCloseRate] = useState("30");  // Set default to "30"
   const [domain, setDomain] = useState("chargebee.com");
   const [savedDomain, setSavedDomain] = useState("chargebee.com");
   const { toast } = useToast();

@@ -36,7 +36,7 @@ export const content = {
 
 export const inputConfig = {
   signups: {
-    default: 300,  // Updated from previous value
+    default: 300,
     max: 3000,
     step: 1,
     roundingRules: [
@@ -45,9 +45,9 @@ export const inputConfig = {
     ]
   },
   revenue: {
-    default: 2400,  // Updated from previous value
+    default: 2400,
     max: 10000,
     step: 100
   },
-  closeRates: ["30", "20", "40", "50"]  // Moved "30" to first position as default
+  closeRates: ["20", "30", "40", "50"]  // Keep original order
 };
