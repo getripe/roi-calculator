@@ -123,6 +123,7 @@ const ROICalculator = () => {
                 size="icon"
                 onClick={() => handleShare('copy')}
                 title="Copy link"
+                className="bg-[#12ED8A] hover:bg-[#12ED8A]/90 border-none text-white"
               >
                 <Link className="w-4 h-4" />
               </Button>
@@ -131,6 +132,7 @@ const ROICalculator = () => {
                 size="icon"
                 onClick={() => handleShare('email')}
                 title="Share via email"
+                className="bg-[#12ED8A] hover:bg-[#12ED8A]/90 border-none text-white"
               >
                 <Mail className="w-4 h-4" />
               </Button>
@@ -139,6 +141,7 @@ const ROICalculator = () => {
                 size="icon"
                 onClick={() => handleShare('linkedin')}
                 title="Share on LinkedIn"
+                className="bg-[#12ED8A] hover:bg-[#12ED8A]/90 border-none text-white"
               >
                 <Linkedin className="w-4 h-4" />
               </Button>
@@ -147,6 +150,7 @@ const ROICalculator = () => {
                 size="icon"
                 onClick={() => handleShare('twitter')}
                 title="Share on Twitter"
+                className="bg-[#12ED8A] hover:bg-[#12ED8A]/90 border-none text-white"
               >
                 <Twitter className="w-4 h-4" />
               </Button>
