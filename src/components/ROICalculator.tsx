@@ -11,7 +11,7 @@ import { CloseRateSection } from "./roi-calculator/CloseRateSection";
 import { ResultsSection } from "./roi-calculator/ResultsSection";
 import { MdShare } from "react-icons/md";
 import { MdSend } from "react-icons/md";
-import { MdLinkedIn } from "react-icons/md";
+import { MdOutlineLinkedin } from "react-icons/md";
 import { MdMessage } from "react-icons/md";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -146,7 +146,7 @@ const ROICalculator = () => {
                 title="Share on LinkedIn"
                 className="bg-[#008CF1] hover:bg-[#008CF1]/90 border-none text-white"
               >
-                <MdLinkedIn className="w-4 h-4" />
+                <MdOutlineLinkedin className="w-4 h-4" />
               </Button>
               <Button
                 variant="outline"
