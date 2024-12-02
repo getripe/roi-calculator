@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Check } from "lucide-react";
 
 const ROICalculator = () => {
-  const [signups, setSignups] = useState(100);
+  const [signups, setSignups] = useState(0);
   const [revenuePerSignup, setRevenuePerSignup] = useState(500);
   const [closeRate, setCloseRate] = useState("20");
   const { toast } = useToast();
@@ -68,9 +68,9 @@ const ROICalculator = () => {
                 </p>
               </label>
               <Slider
-                defaultValue={[100]}
-                max={1000}
-                step={10}
+                defaultValue={[0]}
+                max={3000}
+                step={50}
                 onValueChange={handleSignupsChange}
                 className="py-4"
               />
