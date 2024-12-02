@@ -19,8 +19,8 @@ const ROICalculator = () => {
   const handleRevenueChange = (value: number[]) => {
     setRevenuePerSignup(value[0]);
     toast({
-      title: "Updated Revenue Per Signup",
-      description: `Revenue per signup set to ${formatCurrency(value[0])}`,
+      title: "Updated Revenue per Closed Deal",
+      description: `Revenue per closed deal set to ${formatCurrency(value[0])}`,
     });
   };
 
@@ -64,10 +64,10 @@ const ROICalculator = () => {
               </div>
             </div>
 
-            {/* Revenue Per Signup Slider */}
+            {/* Revenue Per Closed Deal Slider */}
             <div className="space-y-4">
               <label className="text-lg font-medium">
-                Revenue Per Signup
+                Revenue per Closed Deal (Average Contract Value)
               </label>
               <Slider
                 defaultValue={[50]}
@@ -77,7 +77,7 @@ const ROICalculator = () => {
                 className="py-4"
               />
               <div className="text-2xl font-bold text-primary animate-number-scroll">
-                {formatCurrency(revenuePerSignup)} per signup
+                {formatCurrency(revenuePerSignup)} per closed deal
               </div>
             </div>
 
