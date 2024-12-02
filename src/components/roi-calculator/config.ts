@@ -28,7 +28,7 @@ export const content = {
       period: "/ month"
     },
     roi: {
-      title: "Yearly ROI",
+      title: "ROI", // Updated from "Yearly ROI"
       suffix: "x"
     }
   }
