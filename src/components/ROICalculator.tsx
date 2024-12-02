@@ -67,8 +67,8 @@ const ROICalculator = () => {
       <BackgroundSVG />
       <div className="relative z-10 max-w-4xl mx-auto">
         <Card className="p-8 shadow-lg bg-white/95 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="text-4xl font-bold text-left mb-4">
+          <CardHeader className="p-0 mb-8">
+            <CardTitle className="text-4xl font-bold text-left">
               Calculate Your Potential Revenue
             </CardTitle>
           </CardHeader>
