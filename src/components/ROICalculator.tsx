@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
 import BackgroundSVG from "./BackgroundSVG";
 import { content, inputConfig } from "./roi-calculator/config";
 import { SignupsSection } from "./roi-calculator/SignupsSection";
@@ -12,6 +13,7 @@ const ROICalculator = () => {
   const [signups, setSignups] = useState(inputConfig.signups.default);
   const [revenuePerSignup, setRevenuePerSignup] = useState(inputConfig.revenue.default);
   const [closeRate, setCloseRate] = useState(inputConfig.closeRates[0]);
+  const [domain, setDomain] = useState("chargebee.com");
 
   return (
     <div className="relative min-h-screen p-8">
@@ -28,10 +30,12 @@ const ROICalculator = () => {
             </Avatar>
             <Avatar className="w-16 h-16 border-2 border-white -ml-6 bg-white">
               <AvatarImage 
-                src="https://www.google.com/s2/favicons?domain=chargebee.com&sz=128" 
-                alt="Chargebee Logo"
+                src={`https://www.google.com/s2/favicons?domain=${domain}&sz=128`}
+                alt={`${domain} Logo`}
               />
-              <AvatarFallback className="bg-success text-success-foreground">CB</AvatarFallback>
+              <AvatarFallback className="bg-success text-success-foreground">
+                {domain.substring(0, 2).toUpperCase()}
+              </AvatarFallback>
             </Avatar>
           </div>
           
@@ -39,6 +43,15 @@ const ROICalculator = () => {
             <CardTitle className="text-4xl font-bold text-left">
               {content.title}
             </CardTitle>
+            <div className="mt-4">
+              <Input
+                type="text"
+                placeholder="Enter domain (e.g., example.com)"
+                value={domain}
+                onChange={(e) => setDomain(e.target.value)}
+                className="max-w-xs"
+              />
+            </div>
           </CardHeader>
           
           <div className="space-y-8">
