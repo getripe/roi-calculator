@@ -62,6 +62,9 @@ const ROICalculator = () => {
             <div className="space-y-4">
               <label className="text-lg font-medium">
                 Average Monthly Signups
+                <p className="text-sm text-gray-500 font-normal mt-1">
+                  The number of qualified signups (MQLs / ICP / PQLs etc) that your team wants to get in contact with
+                </p>
               </label>
               <Slider
                 defaultValue={[100]}
@@ -79,6 +82,9 @@ const ROICalculator = () => {
             <div className="space-y-4">
               <label className="text-lg font-medium">
                 Revenue per Closed Deal (Average Contract Value)
+                <p className="text-sm text-gray-500 font-normal mt-1">
+                  The average contract value
+                </p>
               </label>
               <Slider
                 defaultValue={[500]}
