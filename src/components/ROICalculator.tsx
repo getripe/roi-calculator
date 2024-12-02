@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import BackgroundSVG from "./BackgroundSVG";
 import { content, inputConfig } from "./roi-calculator/config";
 import { SignupsSection } from "./roi-calculator/SignupsSection";
@@ -17,6 +18,14 @@ const ROICalculator = () => {
       <BackgroundSVG />
       <div className="relative z-10 max-w-4xl mx-auto">
         <Card className="p-8 shadow-lg bg-white/95 backdrop-blur-sm">
+          <div className="absolute -top-3 right-6 flex">
+            <Avatar className="w-12 h-12 border-2 border-white">
+              <AvatarFallback className="bg-primary text-primary-foreground">JD</AvatarFallback>
+            </Avatar>
+            <Avatar className="w-12 h-12 border-2 border-white -ml-6">
+              <AvatarFallback className="bg-success text-success-foreground">AB</AvatarFallback>
+            </Avatar>
+          </div>
           <CardHeader className="p-0 mb-8">
             <CardTitle className="text-4xl font-bold text-left">
               {content.title}
