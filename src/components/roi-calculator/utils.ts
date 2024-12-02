@@ -14,7 +14,7 @@ export const calculateToolCost = (signups: number) => {
 };
 
 export const calculateROI = (signups: number, closeRate: string, revenuePerSignup: number) => {
-  const yearlyRevenue = signups * 12 * (parseInt(closeRate) / 100) * revenuePerSignup;
+  const monthlyRevenue = signups * (parseInt(closeRate) / 100) * revenuePerSignup * 0.1;
   const monthlyToolCost = calculateToolCost(signups);
-  return Math.floor((yearlyRevenue / (monthlyToolCost * 12)));
+  return Math.floor((monthlyRevenue / monthlyToolCost));
 };
