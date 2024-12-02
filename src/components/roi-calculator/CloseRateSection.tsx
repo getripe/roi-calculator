@@ -39,7 +39,7 @@ export const CloseRateSection = ({ closeRate, onCloseRateChange }: CloseRateSect
         </TooltipProvider>
       </div>
       <RadioGroup
-        defaultValue={inputConfig.closeRates[0]}
+        value={closeRate}
         onValueChange={handleCloseRateChange}
         className="grid grid-cols-2 gap-4 sm:grid-cols-4"
       >

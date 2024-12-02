@@ -25,7 +25,7 @@ const ROICalculator = () => {
     const companyUrl = urlParams.get('company');
     const qualifiedParam = urlParams.get('qualified');
     const contractParam = urlParams.get('contract');
-    const closeRateParam = urlParams.get('sales');
+    const closeRateParam = urlParams.get('rate');
     
     if (companyUrl) {
       try {
