@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { useToast } from "@/components/ui/use-toast";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -71,6 +71,12 @@ const ROICalculator = () => {
         </h1>
         
         <Card className="p-8 shadow-lg bg-white/95 backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center mb-4">
+              Calculate Your Potential Revenue
+            </CardTitle>
+          </CardHeader>
+          
           <div className="space-y-8">
             {/* Monthly Signups Slider */}
             <div className="space-y-4">
