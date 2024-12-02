@@ -2,6 +2,8 @@ import { Slider } from "@/components/ui/slider";
 import { useToast } from "@/components/ui/use-toast";
 import { content, inputConfig } from "./config";
 import { formatCurrency } from "./utils";
+import { Info } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface RevenueSectionProps {
   revenuePerSignup: number;
@@ -21,12 +23,21 @@ export const RevenueSection = ({ revenuePerSignup, onRevenueChange }: RevenueSec
 
   return (
     <div className="space-y-4">
-      <label className="text-lg font-medium">
-        {content.revenue.label}
-        <p className="text-sm text-gray-500 font-normal mt-1">
-          {content.revenue.description}
-        </p>
-      </label>
+      <div className="flex items-center gap-2">
+        <label className="text-lg font-medium">
+          {content.revenue.label}
+        </label>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Info className="h-4 w-4 text-muted-foreground" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="max-w-xs">{content.revenue.description}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
       <Slider
         defaultValue={[inputConfig.revenue.default]}
         max={inputConfig.revenue.max}
