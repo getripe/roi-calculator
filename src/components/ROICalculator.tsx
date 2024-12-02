@@ -9,6 +9,8 @@ import { SignupsSection } from "./roi-calculator/SignupsSection";
 import { RevenueSection } from "./roi-calculator/RevenueSection";
 import { CloseRateSection } from "./roi-calculator/CloseRateSection";
 import { ResultsSection } from "./roi-calculator/ResultsSection";
+import { Twitter, Linkedin, Mail, Link } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 const ROICalculator = () => {
   const [signups, setSignups] = useState(inputConfig.signups.default);
@@ -16,9 +18,35 @@ const ROICalculator = () => {
   const [closeRate, setCloseRate] = useState(inputConfig.closeRates[0]);
   const [domain, setDomain] = useState("chargebee.com");
   const [savedDomain, setSavedDomain] = useState("chargebee.com");
+  const { toast } = useToast();
 
   const handleSaveDomain = () => {
     setSavedDomain(domain);
+  };
+
+  const handleShare = async (platform: 'copy' | 'email' | 'linkedin' | 'twitter') => {
+    const url = window.location.href;
+    const title = "ROI Calculator Results";
+    const text = `Check out my ROI calculation results!`;
+
+    switch (platform) {
+      case 'copy':
+        await navigator.clipboard.writeText(url);
+        toast({
+          title: "Link copied!",
+          description: "The calculator URL has been copied to your clipboard.",
+        });
+        break;
+      case 'email':
+        window.location.href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(text + '\n\n' + url)}`;
+        break;
+      case 'linkedin':
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+        break;
+      case 'twitter':
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        break;
+    }
   };
 
   return (
@@ -88,6 +116,41 @@ const ROICalculator = () => {
               closeRate={closeRate}
               revenuePerSignup={revenuePerSignup}
             />
+
+            <div className="flex items-center justify-center gap-4 pt-4 border-t">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => handleShare('copy')}
+                title="Copy link"
+              >
+                <Link className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => handleShare('email')}
+                title="Share via email"
+              >
+                <Mail className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => handleShare('linkedin')}
+                title="Share on LinkedIn"
+              >
+                <Linkedin className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => handleShare('twitter')}
+                title="Share on Twitter"
+              >
+                <Twitter className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </Card>
       </div>
