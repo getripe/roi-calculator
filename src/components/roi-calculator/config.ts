@@ -1,5 +1,5 @@
 export const content = {
-  title: "ROI Calculator for...",
+  title: "ROI Calculator",
   signups: {
     label: "Qualified Signups",
     description: "The number of qualified signups (MQLs / ICP / PQLs etc) that your team wants to get in contact with",
