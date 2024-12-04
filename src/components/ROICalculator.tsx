@@ -136,7 +136,7 @@ const ROICalculator = () => {
                 size="sm"
                 onClick={handleShare}
                 className="gap-2"
-                style={{ backgroundColor: "#008448", color: "white" }}
+                style={{ backgroundColor: "#1C53EE", color: "white" }}
               >
                 <Link2 className="h-4 w-4" />
                 Share
