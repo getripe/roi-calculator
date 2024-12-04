@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link2, Settings2 } from "lucide-react";
+import { Link2 } from "lucide-react";
 import BackgroundSVG from "./BackgroundSVG";
 import { content, inputConfig } from "./roi-calculator/config";
 import { SignupsSection } from "./roi-calculator/SignupsSection";
@@ -12,13 +12,6 @@ import { CloseRateSection } from "./roi-calculator/CloseRateSection";
 import { ResultsSection } from "./roi-calculator/ResultsSection";
 import { useToast } from "@/components/ui/use-toast";
 import { sendToSlack } from "@/utils/slack";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 const ROICalculator = () => {
   const [signups, setSignups] = useState(inputConfig.signups.default);
@@ -30,7 +23,6 @@ const ROICalculator = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Get the URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const companyUrl = urlParams.get('company');
     const qualifiedParam = urlParams.get('qualified');
@@ -48,7 +40,6 @@ const ROICalculator = () => {
       }
     }
 
-    // Set qualified signups if provided
     if (qualifiedParam) {
       const qualifiedValue = parseInt(qualifiedParam);
       if (!isNaN(qualifiedValue) && qualifiedValue >= 0 && qualifiedValue <= inputConfig.signups.max) {
@@ -56,7 +47,6 @@ const ROICalculator = () => {
       }
     }
 
-    // Set contract value if provided
     if (contractParam) {
       const contractValue = parseInt(contractParam);
       if (!isNaN(contractValue) && contractValue >= 0 && contractValue <= inputConfig.revenue.max) {
@@ -64,7 +54,6 @@ const ROICalculator = () => {
       }
     }
 
-    // Set close rate if provided
     if (closeRateParam) {
       const closeRateValue = closeRateParam;
       if (inputConfig.closeRates.includes(closeRateValue)) {
@@ -81,7 +70,6 @@ const ROICalculator = () => {
     const baseUrl = window.location.origin + window.location.pathname;
     const params = new URLSearchParams();
     
-    // Add all parameters
     params.set('company', domain);
     params.set('qualified', signups.toString());
     params.set('contract', revenuePerSignup.toString());
@@ -89,11 +77,9 @@ const ROICalculator = () => {
 
     const shareableUrl = `${baseUrl}?${params.toString()}`;
 
-    // Copy to clipboard
     try {
       await navigator.clipboard.writeText(shareableUrl);
       
-      // If Slack webhook is configured, send notification
       if (slackWebhook) {
         try {
           await sendToSlack(slackWebhook, {
@@ -126,15 +112,6 @@ const ROICalculator = () => {
         variant: "destructive",
       });
     }
-  };
-
-  const handleSaveWebhook = (url: string) => {
-    setSlackWebhook(url);
-    localStorage.setItem('slackWebhook', url);
-    toast({
-      title: "Slack Webhook Saved",
-      description: "Your Slack notifications have been configured",
-    });
   };
 
   return (
@@ -171,42 +148,11 @@ const ROICalculator = () => {
                 <Button 
                   variant="outline" 
                   size="sm"
-                  onClick={() => setSavedDomain(domain)}
+                  onClick={handleSaveDomain}
                   className="shadow-sm hover:shadow-md transition-all"
                 >
                   Save
                 </Button>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="gap-2 shadow-sm hover:shadow-md transition-all"
-                    >
-                      <Settings2 className="h-4 w-4" />
-                      Settings
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Slack Integration</DialogTitle>
-                    </DialogHeader>
-                    <div className="space-y-4 pt-4">
-                      <Input
-                        type="text"
-                        placeholder="Enter Slack Webhook URL"
-                        value={slackWebhook}
-                        onChange={(e) => setSlackWebhook(e.target.value)}
-                      />
-                      <Button 
-                        onClick={() => handleSaveWebhook(slackWebhook)}
-                        className="w-full"
-                      >
-                        Save Webhook
-                      </Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
                 <Button
                   variant="outline"
                   size="sm"
@@ -218,6 +164,18 @@ const ROICalculator = () => {
                   Share
                 </Button>
               </div>
+            </div>
+            <div className="mt-4">
+              <Input
+                type="text"
+                placeholder="Enter Slack Webhook URL"
+                value={slackWebhook}
+                onChange={(e) => {
+                  setSlackWebhook(e.target.value);
+                  localStorage.setItem('slackWebhook', e.target.value);
+                }}
+                className="w-full"
+              />
             </div>
           </CardHeader>
           
