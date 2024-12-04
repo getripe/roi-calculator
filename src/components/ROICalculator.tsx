@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Share2 } from "lucide-react";
+import { Link2 } from "lucide-react";
 import BackgroundSVG from "./BackgroundSVG";
 import { content, inputConfig } from "./roi-calculator/config";
 import { SignupsSection } from "./roi-calculator/SignupsSection";
@@ -138,7 +138,7 @@ const ROICalculator = () => {
                 className="gap-2"
                 style={{ backgroundColor: "#008448", color: "white" }}
               >
-                <Share2 className="h-4 w-4" />
+                <Link2 className="h-4 w-4" />
                 Share
               </Button>
             </div>
