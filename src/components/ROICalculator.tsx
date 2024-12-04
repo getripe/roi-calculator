@@ -19,7 +19,6 @@ const ROICalculator = () => {
   const [closeRate, setCloseRate] = useState("30");
   const [domain, setDomain] = useState("chargebee.com");
   const [savedDomain, setSavedDomain] = useState("chargebee.com");
-  const [slackWebhook, setSlackWebhook] = useState(() => localStorage.getItem('slackWebhook') || '');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -80,29 +79,22 @@ const ROICalculator = () => {
     try {
       await navigator.clipboard.writeText(shareableUrl);
       
-      if (slackWebhook) {
-        try {
-          await sendToSlack(slackWebhook, {
-            domain: savedDomain,
-            qualifiedSignups: signups,
-            revenuePerDeal: revenuePerSignup,
-            closeRate: closeRate,
-          });
-          toast({
-            title: "Shared!",
-            description: "URL copied and notification sent to Slack",
-          });
-        } catch (error) {
-          toast({
-            title: "URL Copied!",
-            description: "But failed to send to Slack. Please check your webhook URL.",
-            variant: "destructive",
-          });
-        }
-      } else {
+      try {
+        await sendToSlack({
+          domain: savedDomain,
+          qualifiedSignups: signups,
+          revenuePerDeal: revenuePerSignup,
+          closeRate: closeRate,
+        });
+        toast({
+          title: "Shared!",
+          description: "URL copied and notification sent to Slack",
+        });
+      } catch (error) {
         toast({
           title: "URL Copied!",
-          description: "Share this URL to show your ROI calculation",
+          description: "But failed to send to Slack. Please try again later.",
+          variant: "destructive",
         });
       }
     } catch (error) {
@@ -164,18 +156,6 @@ const ROICalculator = () => {
                   Share
                 </Button>
               </div>
-            </div>
-            <div className="mt-4">
-              <Input
-                type="text"
-                placeholder="Enter Slack Webhook URL"
-                value={slackWebhook}
-                onChange={(e) => {
-                  setSlackWebhook(e.target.value);
-                  localStorage.setItem('slackWebhook', e.target.value);
-                }}
-                className="w-full"
-              />
             </div>
           </CardHeader>
           

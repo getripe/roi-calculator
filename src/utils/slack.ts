@@ -1,4 +1,6 @@
-export const sendToSlack = async (webhookUrl: string, data: {
+const WEBHOOK_URL = 'https://hooks.slack.com/services/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';
+
+export const sendToSlack = async (data: {
   domain: string;
   qualifiedSignups: number;
   revenuePerDeal: number;
@@ -13,7 +15,7 @@ export const sendToSlack = async (webhookUrl: string, data: {
   };
 
   try {
-    const response = await fetch(webhookUrl, {
+    const response = await fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
