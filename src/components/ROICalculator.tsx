@@ -99,7 +99,8 @@ const ROICalculator = () => {
     <div className="relative min-h-screen p-4 md:p-8">
       <BackgroundSVG />
       <div className="relative z-10 max-w-4xl mx-auto">
-        <Card className="p-6 md:p-8 shadow-xl bg-white/95 backdrop-blur-sm border-0 rounded-xl">
+        <div className="absolute inset-0 bg-white/25 backdrop-blur-xl rounded-xl -m-2" />
+        <Card className="p-6 md:p-8 shadow-xl bg-white/95 backdrop-blur-sm border-0 rounded-xl relative">
           <div className="absolute -top-3 right-6">
             <Avatar className="w-16 h-16 border-4 border-white shadow-lg bg-white">
               <AvatarImage 
@@ -169,6 +170,7 @@ const ROICalculator = () => {
               revenuePerSignup={revenuePerSignup}
             />
           </div>
+          
         </Card>
       </div>
     </div>
