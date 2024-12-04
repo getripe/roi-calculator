@@ -1,4 +1,4 @@
-const WEBHOOK_URL = 'https://hooks.slack.com/services/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';
+const WEBHOOK_URL = import.meta.env.VITE_SLACK_WEBHOOK_URL;
 
 export const sendToSlack = async (data: {
   domain: string;
