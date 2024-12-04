@@ -1,3 +1,8 @@
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -101,7 +106,7 @@ const ROICalculator = () => {
       <div className="relative z-10 max-w-4xl mx-auto">
         <div className="absolute inset-0 bg-white/25 backdrop-blur-xl rounded-xl -m-4" />
         <Card className="p-6 md:p-8 shadow-xl bg-white/95 backdrop-blur-sm border-0 rounded-xl relative">
-          <div className="absolute -top-6 right-6">
+          <div className="absolute -top-8 -right-2">
             <Avatar className="w-16 h-16 border-4 border-white shadow-lg bg-white">
               <AvatarImage 
                 src={`https://www.google.com/s2/favicons?domain=${savedDomain}&sz=128`}
