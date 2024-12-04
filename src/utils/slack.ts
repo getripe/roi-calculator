@@ -17,7 +17,7 @@ export const sendToSlack = async (data: {
     text: messageText
   };
 
-  console.log('Sending to Slack:', message); // Debug log
+  console.log('Sending to Slack:', JSON.stringify(message)); // Detailed logging
 
   try {
     const response = await fetch(WEBHOOK_URL, {
@@ -26,16 +26,24 @@ export const sendToSlack = async (data: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(message),
+      mode: 'no-cors', // Add this to handle cross-origin requests
     });
     
+    console.log('Slack response status:', response.status); // Log response status
+
     if (!response.ok) {
-      console.error('Slack response not OK:', await response.text()); // Debug log
-      throw new Error('Failed to send to Slack');
+      const errorText = await response.text();
+      console.error('Slack response not OK:', errorText);
+      throw new Error(`Failed to send to Slack. Status: ${response.status}, Error: ${errorText}`);
     }
 
-    console.log('Successfully sent to Slack'); // Debug log
+    console.log('Successfully sent to Slack');
   } catch (error) {
-    console.error('Error sending to Slack:', error);
+    console.error('Detailed Slack error:', error);
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      url: WEBHOOK_URL,
+    });
     throw error;
   }
 };
