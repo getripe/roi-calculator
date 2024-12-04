@@ -6,6 +6,13 @@ export const sendToSlack = async (data: {
   revenuePerDeal: number;
   closeRate: string;
 }) => {
+  console.log('Attempting to send to Slack with webhook:', WEBHOOK_URL);
+  
+  if (!WEBHOOK_URL) {
+    console.error('No webhook URL found in environment variables');
+    throw new Error('Webhook URL not configured');
+  }
+
   const messageText = 
     `🎯 New ROI Calculator Share\n` +
     `Domain: ${data.domain}\n` +
@@ -18,6 +25,8 @@ export const sendToSlack = async (data: {
   };
 
   try {
+    console.log('Sending message to Slack:', message);
+    
     const response = await fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: {
@@ -26,11 +35,17 @@ export const sendToSlack = async (data: {
       body: JSON.stringify(message)
     });
     
+    console.log('Slack response status:', response.status);
+    
     if (!response.ok) {
+      const responseText = await response.text();
+      console.error('Slack error response:', responseText);
       throw new Error(`Failed to send. Status: ${response.status}`);
     }
+
+    console.log('Successfully sent message to Slack');
   } catch (error) {
-    console.error('Error details:', {
+    console.error('Error sending to Slack:', {
       message: error instanceof Error ? error.message : 'Unknown error',
       url: WEBHOOK_URL,
     });
