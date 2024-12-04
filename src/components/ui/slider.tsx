@@ -20,7 +20,7 @@ const Slider = React.forwardRef<
     </SliderPrimitive.Track>
     <SliderPrimitive.Thumb className="block h-6 w-6 rounded-full bg-transparent ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 relative">
       <svg
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 w-full h-full -ml-0.5"
         viewBox="0 0 1199 1199"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
