@@ -26,7 +26,7 @@ export const ResultsSection = ({ signups, closeRate, revenuePerSignup }: Results
 
       <div className="p-6 bg-secondary rounded-lg md:col-span-3">
         <h3 className="text-xl font-semibold mb-4">{content.results.toolCost.title}</h3>
-        <div className="text-4xl font-bold text-primary animate-number-scroll">
+        <div className="text-4xl font-bold text-black animate-number-scroll">
           {formatCurrency(monthlyToolCost)}
           <span className="text-base font-normal text-gray-600 ml-2 text-sm">
             {content.results.toolCost.period}
