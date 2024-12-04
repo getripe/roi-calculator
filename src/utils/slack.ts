@@ -1,4 +1,4 @@
-const WEBHOOK_URL = 'https://90dd046a-a846-4e8f-a2b2-c59236be341b.lovableproject.com';
+const BASE_URL = 'https://90dd046a-a846-4e8f-a2b2-c59236be341b.lovableproject.com';
 
 export const sendToSlack = async (data: {
   domain: string;
@@ -6,43 +6,40 @@ export const sendToSlack = async (data: {
   revenuePerDeal: number;
   closeRate: string;
 }) => {
-  const messageText = 
-    `🎯 New ROI Calculator Share\n` +
-    `Domain: ${data.domain}\n` +
-    `Qualified Signups: ${data.qualifiedSignups}\n` +
-    `Revenue per Deal: $${data.revenuePerDeal}\n` +
-    `Close Rate: ${data.closeRate}%`;
+  const params = new URLSearchParams({
+    company: data.domain,
+    qualified: data.qualifiedSignups.toString(),
+    contract: data.revenuePerDeal.toString(),
+    rate: data.closeRate
+  });
 
-  const message = {
-    text: messageText
-  };
-
-  console.log('Sending to Slack:', JSON.stringify(message)); // Detailed logging
+  const url = `${BASE_URL}?${params.toString()}`;
+  
+  console.log('Sending to URL:', url); // Detailed logging
 
   try {
-    const response = await fetch(WEBHOOK_URL, {
-      method: 'POST',
+    const response = await fetch(url, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(message),
-      mode: 'no-cors', // Add this to handle cross-origin requests
+      mode: 'no-cors',
     });
     
-    console.log('Slack response status:', response.status); // Log response status
+    console.log('Response status:', response.status); // Log response status
 
-    if (!response.ok) {
+    if (!response.ok && response.status !== 0) { // status 0 is expected with no-cors
       const errorText = await response.text();
-      console.error('Slack response not OK:', errorText);
-      throw new Error(`Failed to send to Slack. Status: ${response.status}, Error: ${errorText}`);
+      console.error('Response not OK:', errorText);
+      throw new Error(`Failed to send. Status: ${response.status}, Error: ${errorText}`);
     }
 
-    console.log('Successfully sent to Slack');
+    console.log('Successfully sent');
   } catch (error) {
-    console.error('Detailed Slack error:', error);
+    console.error('Detailed error:', error);
     console.error('Error details:', {
       message: error instanceof Error ? error.message : 'Unknown error',
-      url: WEBHOOK_URL,
+      url: url,
     });
     throw error;
   }
