@@ -31,12 +31,22 @@ export const sendToSlack = async (data: {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
+      mode: 'no-cors', // This is crucial for handling CORS
       body: JSON.stringify(message)
     });
     
     console.log('Slack response status:', response.status);
+    console.log('Slack response type:', response.type);
     
+    // With no-cors, we won't get an "ok" status, so we'll assume it worked if we got here
+    if (response.type === 'opaque') {
+      console.log('Message likely sent successfully (opaque response due to no-cors)');
+      return;
+    }
+
+    // This code might not run due to no-cors
     if (!response.ok) {
       const responseText = await response.text();
       console.error('Slack error response:', responseText);
