@@ -101,7 +101,7 @@ const ROICalculator = () => {
       <div className="relative z-10 max-w-4xl mx-auto">
         <div className="absolute inset-0 bg-white/25 backdrop-blur-xl rounded-xl -m-4" />
         <Card className="p-6 md:p-8 shadow-xl bg-white/95 backdrop-blur-sm border-0 rounded-xl relative">
-          <div className="absolute -top-3 right-6">
+          <div className="absolute -top-6 right-6">
             <Avatar className="w-16 h-16 border-4 border-white shadow-lg bg-white">
               <AvatarImage 
                 src={`https://www.google.com/s2/favicons?domain=${savedDomain}&sz=128`}
