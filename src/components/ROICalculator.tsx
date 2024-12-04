@@ -87,14 +87,13 @@ const ROICalculator = () => {
           closeRate: closeRate,
         });
         toast({
-          title: "Shared!",
-          description: "URL copied and notification sent to Slack",
+          title: "URL Copied!",
+          description: "Link has been copied to your clipboard",
         });
       } catch (error) {
         toast({
           title: "URL Copied!",
-          description: "But failed to send to Slack. Please try again later.",
-          variant: "destructive",
+          description: "Link has been copied to your clipboard",
         });
       }
     } catch (error) {
