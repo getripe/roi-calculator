@@ -6,13 +6,18 @@ export const sendToSlack = async (data: {
   revenuePerDeal: number;
   closeRate: string;
 }) => {
+  const messageText = 
+    `🎯 New ROI Calculator Share\n` +
+    `Domain: ${data.domain}\n` +
+    `Qualified Signups: ${data.qualifiedSignups}\n` +
+    `Revenue per Deal: $${data.revenuePerDeal}\n` +
+    `Close Rate: ${data.closeRate}%`;
+
   const message = {
-    text: `🎯 New ROI Calculator Share\n` +
-          `Domain: ${data.domain}\n` +
-          `Qualified Signups: ${data.qualifiedSignups}\n` +
-          `Revenue per Deal: $${data.revenuePerDeal}\n` +
-          `Close Rate: ${data.closeRate}%`
+    text: messageText
   };
+
+  console.log('Sending to Slack:', message); // Debug log
 
   try {
     const response = await fetch(WEBHOOK_URL, {
@@ -24,8 +29,11 @@ export const sendToSlack = async (data: {
     });
     
     if (!response.ok) {
+      console.error('Slack response not OK:', await response.text()); // Debug log
       throw new Error('Failed to send to Slack');
     }
+
+    console.log('Successfully sent to Slack'); // Debug log
   } catch (error) {
     console.error('Error sending to Slack:', error);
     throw error;
