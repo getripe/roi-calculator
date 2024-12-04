@@ -139,7 +139,7 @@ const ROICalculator = () => {
                   size="sm"
                   onClick={handleShare}
                   className="gap-2 shadow-sm hover:shadow-md transition-all"
-                  style={{ backgroundColor: "#A667F4", color: "white" }}
+                  style={{ backgroundColor: "#7512ED", color: "white" }}
                 >
                   <Link2 className="h-4 w-4" />
                   Share

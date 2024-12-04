@@ -16,9 +16,9 @@ const Slider = React.forwardRef<
     {...props}
   >
     <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
-      <SliderPrimitive.Range className="absolute h-full" style={{ backgroundColor: "#A667F4" }} />
+      <SliderPrimitive.Range className="absolute h-full" style={{ backgroundColor: "#7512ED" }} />
     </SliderPrimitive.Track>
-    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2" style={{ borderColor: "#A667F4", backgroundColor: "white" }} />
+    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2" style={{ borderColor: "#7512ED", backgroundColor: "white" }} />
   </SliderPrimitive.Root>
 ))
 Slider.displayName = SliderPrimitive.Root.displayName
