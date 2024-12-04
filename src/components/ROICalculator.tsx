@@ -96,55 +96,58 @@ const ROICalculator = () => {
   };
 
   return (
-    <div className="relative min-h-screen p-8">
+    <div className="relative min-h-screen p-4 md:p-8">
       <BackgroundSVG />
       <div className="relative z-10 max-w-4xl mx-auto">
-        <Card className="p-8 shadow-lg bg-white/95 backdrop-blur-sm">
+        <Card className="p-6 md:p-8 shadow-xl bg-white/95 backdrop-blur-sm border-0 rounded-xl">
           <div className="absolute -top-3 right-6">
-            <Avatar className="w-16 h-16 border-2 border-white bg-white">
+            <Avatar className="w-16 h-16 border-4 border-white shadow-lg bg-white">
               <AvatarImage 
                 src={`https://www.google.com/s2/favicons?domain=${savedDomain}&sz=128`}
                 alt={`${savedDomain} Logo`}
               />
-              <AvatarFallback className="bg-success text-success-foreground">
+              <AvatarFallback className="bg-primary text-primary-foreground">
                 {savedDomain.substring(0, 2).toUpperCase()}
               </AvatarFallback>
             </Avatar>
           </div>
           
           <CardHeader className="p-0 mb-8">
-            <CardTitle className="text-4xl font-bold text-left mb-4">
+            <CardTitle className="text-3xl md:text-4xl font-bold text-left mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
               {content.title}
             </CardTitle>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
               <Input
                 type="text"
                 placeholder="Enter domain (e.g., example.com)"
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
-                className="max-w-xs"
+                className="flex-1 max-w-xs"
               />
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={handleSaveDomain}
-              >
-                Save
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleShare}
-                className="gap-2"
-                style={{ backgroundColor: "#1C53EE", color: "white" }}
-              >
-                <Link2 className="h-4 w-4" />
-                Share
-              </Button>
+              <div className="flex gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={handleSaveDomain}
+                  className="shadow-sm hover:shadow-md transition-all"
+                >
+                  Save
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleShare}
+                  className="gap-2 shadow-sm hover:shadow-md transition-all"
+                  style={{ backgroundColor: "#1C53EE", color: "white" }}
+                >
+                  <Link2 className="h-4 w-4" />
+                  Share
+                </Button>
+              </div>
             </div>
           </CardHeader>
           
-          <div className="space-y-8">
+          <div className="space-y-10">
             <SignupsSection 
               signups={signups} 
               onSignupsChange={(value) => setSignups(value[0])} 
