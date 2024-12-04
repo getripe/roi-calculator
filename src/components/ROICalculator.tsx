@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link2 } from "lucide-react";
+import { Link2, Settings2 } from "lucide-react";
 import BackgroundSVG from "./BackgroundSVG";
 import { content, inputConfig } from "./roi-calculator/config";
 import { SignupsSection } from "./roi-calculator/SignupsSection";
@@ -11,13 +11,22 @@ import { RevenueSection } from "./roi-calculator/RevenueSection";
 import { CloseRateSection } from "./roi-calculator/CloseRateSection";
 import { ResultsSection } from "./roi-calculator/ResultsSection";
 import { useToast } from "@/components/ui/use-toast";
+import { sendToSlack } from "@/utils/slack";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const ROICalculator = () => {
   const [signups, setSignups] = useState(inputConfig.signups.default);
   const [revenuePerSignup, setRevenuePerSignup] = useState(inputConfig.revenue.default);
-  const [closeRate, setCloseRate] = useState("30");  // Set default to "30"
+  const [closeRate, setCloseRate] = useState("30");
   const [domain, setDomain] = useState("chargebee.com");
   const [savedDomain, setSavedDomain] = useState("chargebee.com");
+  const [slackWebhook, setSlackWebhook] = useState(() => localStorage.getItem('slackWebhook') || '');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -68,7 +77,7 @@ const ROICalculator = () => {
     setSavedDomain(domain);
   };
 
-  const handleShare = () => {
+  const handleShare = async () => {
     const baseUrl = window.location.origin + window.location.pathname;
     const params = new URLSearchParams();
     
@@ -81,17 +90,50 @@ const ROICalculator = () => {
     const shareableUrl = `${baseUrl}?${params.toString()}`;
 
     // Copy to clipboard
-    navigator.clipboard.writeText(shareableUrl).then(() => {
-      toast({
-        title: "URL Copied!",
-        description: "Share this URL to show your ROI calculation",
-      });
-    }).catch(() => {
+    try {
+      await navigator.clipboard.writeText(shareableUrl);
+      
+      // If Slack webhook is configured, send notification
+      if (slackWebhook) {
+        try {
+          await sendToSlack(slackWebhook, {
+            domain: savedDomain,
+            qualifiedSignups: signups,
+            revenuePerDeal: revenuePerSignup,
+            closeRate: closeRate,
+          });
+          toast({
+            title: "Shared!",
+            description: "URL copied and notification sent to Slack",
+          });
+        } catch (error) {
+          toast({
+            title: "URL Copied!",
+            description: "But failed to send to Slack. Please check your webhook URL.",
+            variant: "destructive",
+          });
+        }
+      } else {
+        toast({
+          title: "URL Copied!",
+          description: "Share this URL to show your ROI calculation",
+        });
+      }
+    } catch (error) {
       toast({
         title: "Couldn't copy URL",
         description: "Please copy this URL manually: " + shareableUrl,
         variant: "destructive",
       });
+    }
+  };
+
+  const handleSaveWebhook = (url: string) => {
+    setSlackWebhook(url);
+    localStorage.setItem('slackWebhook', url);
+    toast({
+      title: "Slack Webhook Saved",
+      description: "Your Slack notifications have been configured",
     });
   };
 
@@ -129,11 +171,42 @@ const ROICalculator = () => {
                 <Button 
                   variant="outline" 
                   size="sm"
-                  onClick={handleSaveDomain}
+                  onClick={() => setSavedDomain(domain)}
                   className="shadow-sm hover:shadow-md transition-all"
                 >
                   Save
                 </Button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-2 shadow-sm hover:shadow-md transition-all"
+                    >
+                      <Settings2 className="h-4 w-4" />
+                      Settings
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Slack Integration</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 pt-4">
+                      <Input
+                        type="text"
+                        placeholder="Enter Slack Webhook URL"
+                        value={slackWebhook}
+                        onChange={(e) => setSlackWebhook(e.target.value)}
+                      />
+                      <Button 
+                        onClick={() => handleSaveWebhook(slackWebhook)}
+                        className="w-full"
+                      >
+                        Save Webhook
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
                 <Button
                   variant="outline"
                   size="sm"
