@@ -36,9 +36,9 @@ export const ResultsSection = ({ signups, closeRate, revenuePerSignup }: Results
 
       <div className="p-6 bg-secondary rounded-lg md:col-span-3">
         <h3 className="text-xl font-semibold mb-4">{content.results.roi.title}</h3>
-        <div className="flex items-baseline text-4xl font-bold text-black animate-number-scroll whitespace-nowrap">
+        <div className="flex items-baseline text-4xl font-bold animate-number-scroll whitespace-nowrap" style={{ color: "#A667F4" }}>
           {roi}
-          <span className="text-4xl font-bold text-black ml-1">
+          <span className="text-4xl font-bold ml-1" style={{ color: "#A667F4" }}>
             {content.results.roi.suffix}
           </span>
         </div>
