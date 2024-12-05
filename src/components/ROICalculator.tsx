@@ -131,7 +131,7 @@ const ROICalculator = () => {
           
           <CardHeader className="p-0 mb-8">
             <CardTitle className="text-3xl md:text-4xl font-bold text-left mb-6 text-black">
-              ROI Calculator from {getCompanyName(savedDomain)}
+              ROI Calculator for {getCompanyName(savedDomain)}
             </CardTitle>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
               <Input
