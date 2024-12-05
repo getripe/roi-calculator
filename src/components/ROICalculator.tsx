@@ -19,7 +19,8 @@ const ROICalculator = () => {
   const [closeRate, setCloseRate] = useState("30");
   const [domain, setDomain] = useState("chargebee.com");
   const [savedDomain, setSavedDomain] = useState("chargebee.com");
-  const [accentColor, setAccentColor] = useState("#12ED8A");
+  const [accentColor, setAccentColor] = useState("");
+  const [isColorLoading, setIsColorLoading] = useState(true);
   const { toast } = useToast();
 
   const getCompanyName = (domain: string) => {
@@ -52,6 +53,7 @@ const ROICalculator = () => {
 
   useEffect(() => {
     const extractDominantColor = async (imageUrl: string) => {
+      setIsColorLoading(true);
       try {
         const img = new Image();
         img.crossOrigin = "Anonymous";
@@ -90,6 +92,9 @@ const ROICalculator = () => {
         }
       } catch (error) {
         console.error('Error extracting color:', error);
+        setAccentColor("#12ED8A"); // Fallback color
+      } finally {
+        setIsColorLoading(false);
       }
     };
 
@@ -143,7 +148,7 @@ const ROICalculator = () => {
 
   return (
     <div className="relative min-h-screen p-4 md:p-8">
-      <BackgroundSVG accentColor={accentColor} />
+      {!isColorLoading && <BackgroundSVG accentColor={accentColor || "#12ED8A"} />}
       <div className="relative z-10 max-w-4xl mx-auto">
         <div className="absolute inset-0 bg-white/25 backdrop-blur-xl rounded-xl -m-4" />
         <Card className="p-6 md:p-8 shadow-xl bg-white/95 backdrop-blur-sm border-0 rounded-xl relative">
