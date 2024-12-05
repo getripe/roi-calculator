@@ -12,6 +12,7 @@ import { CloseRateSection } from "./roi-calculator/CloseRateSection";
 import { ResultsSection } from "./roi-calculator/ResultsSection";
 import { useToast } from "@/components/ui/use-toast";
 import { sendToSlack } from "@/utils/slack";
+import { extractDominantColor } from "@/utils/colorExtractor";
 
 const ROICalculator = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -58,126 +59,16 @@ const ROICalculator = () => {
   useEffect(() => {
     if (!savedDomain) return;
 
-    const extractDominantColor = async (imageUrl: string) => {
-      try {
-        const img = new Image();
-        img.crossOrigin = "Anonymous";
-        img.src = imageUrl;
-        
-        await new Promise((resolve, reject) => {
-          img.onload = resolve;
-          img.onerror = reject;
-        });
-
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx?.drawImage(img, 0, 0);
-
-        const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height).data;
-        if (!imageData) return;
-
-        // First pass: calculate average color and track non-white pixels
-        let totalR = 0, totalG = 0, totalB = 0, totalPixels = 0;
-        const colorMap = new Map();
-        let nonWhitePixels = 0;
-        let hasColor = false;
-
-        for (let i = 0; i < imageData.length; i += 4) {
-          if (imageData[i + 3] > 128) { // Only consider mostly opaque pixels
-            const r = Math.round(imageData[i] / 32) * 32;     // Quantize to reduce colors
-            const g = Math.round(imageData[i + 1] / 32) * 32;
-            const b = Math.round(imageData[i + 2] / 32) * 32;
-            
-            // Skip pure white and near-white pixels
-            const brightness = (r + g + b) / 3;
-            if (brightness > 240) continue;
-
-            // Skip pure black and near-black pixels
-            if (brightness < 20) continue;
-
-            // Check if we have a non-gray color
-            const maxDiff = Math.max(
-              Math.abs(r - g),
-              Math.abs(g - b),
-              Math.abs(b - r)
-            );
-            if (maxDiff > 30) {
-              hasColor = true;
-            }
-
-            totalR += r;
-            totalG += g;
-            totalB += b;
-            totalPixels++;
-            nonWhitePixels++;
-
-            // Track individual colors for analysis
-            const key = `${r},${g},${b}`;
-            colorMap.set(key, (colorMap.get(key) || 0) + 1);
-          }
-        }
-
-        // If we have any colored pixels, use their average
-        if (hasColor) {
-          const avgR = Math.round(totalR / nonWhitePixels);
-          const avgG = Math.round(totalG / nonWhitePixels);
-          const avgB = Math.round(totalB / nonWhitePixels);
-          const avgColor = `#${avgR.toString(16).padStart(2, '0')}${avgG.toString(16).padStart(2, '0')}${avgB.toString(16).padStart(2, '0')}`;
-          
-          // Check if we have multiple prominent colors
-          const colorThreshold = totalPixels * 0.15;
-          const prominentColors = Array.from(colorMap.entries())
-            .filter(([_, count]) => count > colorThreshold)
-            .map(([color]) => {
-              const [r, g, b] = color.split(',').map(Number);
-              return { r, g, b };
-            });
-
-          if (prominentColors.length <= 1) {
-            setAccentColor(avgColor);
-          } else {
-            let mostVibrantColor = null;
-            let highestSaturation = 0;
-
-            for (const color of prominentColors) {
-              const { r, g, b } = color;
-              
-              // Skip grayish colors
-              const maxDiff = Math.max(
-                Math.abs(r - g),
-                Math.abs(g - b),
-                Math.abs(b - r)
-              );
-              if (maxDiff < 30) continue;
-
-              // Calculate saturation
-              const max = Math.max(r, g, b);
-              const min = Math.min(r, g, b);
-              const saturation = max === 0 ? 0 : (max - min) / max;
-
-              if (saturation > highestSaturation) {
-                highestSaturation = saturation;
-                mostVibrantColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-              }
-            }
-
-            setAccentColor(mostVibrantColor || avgColor);
-          }
-        } else {
-          setAccentColor("#12ED8A"); // Fallback color if no non-gray colors found
-        }
-      } catch (error) {
-        console.error('Error extracting color:', error);
-        setAccentColor("#12ED8A"); // Fallback color
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     const logoUrl = `https://logo.clearbit.com/${savedDomain}`;
-    extractDominantColor(logoUrl);
+    extractDominantColor(logoUrl)
+      .then(color => {
+        setAccentColor(color);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setAccentColor("#12ED8A");
+        setIsLoading(false);
+      });
   }, [savedDomain]);
 
   const handleSaveDomain = () => {
