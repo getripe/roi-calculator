@@ -19,53 +19,60 @@ const ROICalculator = () => {
   const [closeRate, setCloseRate] = useState("30");
   const [domain, setDomain] = useState("chargebee.com");
   const [savedDomain, setSavedDomain] = useState("chargebee.com");
+  const [accentColor, setAccentColor] = useState("#12ED8A");
   const { toast } = useToast();
 
   const getCompanyName = (domain: string) => {
-    // Remove domain extension and capitalize first letter
     const company = domain.split('.')[0];
     return company.charAt(0).toUpperCase() + company.slice(1);
   };
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const companyUrl = urlParams.get('company');
-    const qualifiedParam = urlParams.get('qualified');
-    const contractParam = urlParams.get('contract');
-    const closeRateParam = urlParams.get('rate');
-    
-    if (companyUrl) {
+    const extractDominantColor = async (imageUrl: string) => {
       try {
-        const url = new URL(companyUrl.startsWith('http') ? companyUrl : `https://${companyUrl}`);
-        const cleanDomain = url.hostname.replace('www.', '');
-        setDomain(cleanDomain);
-        setSavedDomain(cleanDomain);
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = imageUrl;
+        
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx?.drawImage(img, 0, 0);
+
+        const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height).data;
+        if (!imageData) return;
+
+        let r = 0, g = 0, b = 0, count = 0;
+        for (let i = 0; i < imageData.length; i += 4) {
+          if (imageData[i + 3] > 0) { // Only consider non-transparent pixels
+            r += imageData[i];
+            g += imageData[i + 1];
+            b += imageData[i + 2];
+            count++;
+          }
+        }
+
+        if (count > 0) {
+          r = Math.round(r / count);
+          g = Math.round(g / count);
+          b = Math.round(b / count);
+          const color = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+          setAccentColor(color);
+        }
       } catch (error) {
-        console.error('Invalid URL parameter:', error);
+        console.error('Error extracting color:', error);
       }
-    }
+    };
 
-    if (qualifiedParam) {
-      const qualifiedValue = parseInt(qualifiedParam);
-      if (!isNaN(qualifiedValue) && qualifiedValue >= 0 && qualifiedValue <= inputConfig.signups.max) {
-        setSignups(qualifiedValue);
-      }
-    }
-
-    if (contractParam) {
-      const contractValue = parseInt(contractParam);
-      if (!isNaN(contractValue) && contractValue >= 0 && contractValue <= inputConfig.revenue.max) {
-        setRevenuePerSignup(contractValue);
-      }
-    }
-
-    if (closeRateParam) {
-      const closeRateValue = closeRateParam;
-      if (inputConfig.closeRates.includes(closeRateValue)) {
-        setCloseRate(closeRateValue);
-      }
-    }
-  }, []);
+    const logoUrl = `https://logo.clearbit.com/${savedDomain}`;
+    extractDominantColor(logoUrl);
+  }, [savedDomain]);
 
   const handleSaveDomain = () => {
     setSavedDomain(domain);
@@ -113,7 +120,7 @@ const ROICalculator = () => {
 
   return (
     <div className="relative min-h-screen p-4 md:p-8">
-      <BackgroundSVG />
+      <BackgroundSVG accentColor={accentColor} />
       <div className="relative z-10 max-w-4xl mx-auto">
         <div className="absolute inset-0 bg-white/25 backdrop-blur-xl rounded-xl -m-4" />
         <Card className="p-6 md:p-8 shadow-xl bg-white/95 backdrop-blur-sm border-0 rounded-xl relative">
