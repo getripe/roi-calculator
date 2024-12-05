@@ -45,15 +45,16 @@ export const CompanyHeader = ({
       <div className="absolute -top-8 -right-4">
         <div className="relative">
           {linkedinProfilePic && (
-            <Avatar className="w-16 h-16 absolute -right-1 -top-1">
+            <Avatar className="w-24 h-24">
               <AvatarImage 
                 src={linkedinProfilePic}
                 alt="LinkedIn Profile"
+                className="object-cover"
               />
               <AvatarFallback />
             </Avatar>
           )}
-          <Avatar className="w-16 h-16 border-4 border-white shadow-lg bg-white relative">
+          <Avatar className="w-16 h-16 border-4 border-white shadow-lg bg-white absolute -right-2 -bottom-2">
             <AvatarImage 
               src={`https://www.google.com/s2/favicons?domain=${savedDomain}&sz=128`}
               alt={`${savedDomain} Logo`}
