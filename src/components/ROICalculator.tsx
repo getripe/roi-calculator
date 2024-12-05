@@ -21,6 +21,12 @@ const ROICalculator = () => {
   const [savedDomain, setSavedDomain] = useState("chargebee.com");
   const { toast } = useToast();
 
+  const getCompanyName = (domain: string) => {
+    // Remove domain extension and capitalize first letter
+    const company = domain.split('.')[0];
+    return company.charAt(0).toUpperCase() + company.slice(1);
+  };
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const companyUrl = urlParams.get('company');
@@ -125,7 +131,7 @@ const ROICalculator = () => {
           
           <CardHeader className="p-0 mb-8">
             <CardTitle className="text-3xl md:text-4xl font-bold text-left mb-6 text-black">
-              {content.title}
+              ROI Calculator from {getCompanyName(savedDomain)}
             </CardTitle>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
               <Input
