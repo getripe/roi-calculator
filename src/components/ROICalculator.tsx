@@ -78,23 +78,38 @@ const ROICalculator = () => {
         const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height).data;
         if (!imageData) return;
 
-        let r = 0, g = 0, b = 0, count = 0;
+        // Create a map to store color frequencies
+        const colorMap = new Map();
+
+        // Process each pixel
         for (let i = 0; i < imageData.length; i += 4) {
-          if (imageData[i + 3] > 0) { // Only consider non-transparent pixels
-            r += imageData[i];
-            g += imageData[i + 1];
-            b += imageData[i + 2];
-            count++;
+          if (imageData[i + 3] > 128) { // Only consider mostly opaque pixels
+            const r = Math.round(imageData[i] / 32) * 32;     // Quantize to reduce colors
+            const g = Math.round(imageData[i + 1] / 32) * 32;
+            const b = Math.round(imageData[i + 2] / 32) * 32;
+            
+            // Skip white, black, and very light/dark colors
+            const brightness = (r + g + b) / 3;
+            if (brightness < 20 || brightness > 235) continue;
+            
+            const key = `${r},${g},${b}`;
+            colorMap.set(key, (colorMap.get(key) || 0) + 1);
           }
         }
 
-        if (count > 0) {
-          r = Math.round(r / count);
-          g = Math.round(g / count);
-          b = Math.round(b / count);
-          const color = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-          setAccentColor(color);
-        }
+        // Find the most frequent color
+        let maxCount = 0;
+        let dominantColor = '#12ED8A'; // Default color
+
+        colorMap.forEach((count, color) => {
+          if (count > maxCount) {
+            maxCount = count;
+            const [r, g, b] = color.split(',').map(Number);
+            dominantColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+          }
+        });
+
+        setAccentColor(dominantColor);
       } catch (error) {
         console.error('Error extracting color:', error);
         setAccentColor("#12ED8A"); // Fallback color
