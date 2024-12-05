@@ -85,9 +85,9 @@ const ROICalculator = () => {
   }
 
   return (
-    <div className="relative min-h-screen p-4 md:p-8">
+    <div className="relative min-h-screen p-4 md:p-8 flex items-center justify-center">
       <BackgroundSVG accentColor={accentColor} />
-      <div className="relative z-10 max-w-4xl mx-auto">
+      <div className="relative z-10 w-full max-w-4xl mx-auto">
         <div className="absolute inset-0 bg-white/25 backdrop-blur-xl rounded-xl -m-4" />
         <Card className="p-6 md:p-8 shadow-xl bg-white/95 backdrop-blur-sm border-0 rounded-xl relative">
           <CompanyHeader
