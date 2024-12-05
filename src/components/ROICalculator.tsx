@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/toaster";
 import { Card } from "@/components/ui/card";
 import BackgroundSVG from "./BackgroundSVG";
 import { SignupsSection } from "./roi-calculator/SignupsSection";
@@ -48,6 +49,13 @@ const ROICalculator = () => {
     params.set('qualified', signups.toString());
     params.set('contract', revenuePerSignup.toString());
     params.set('rate', closeRate);
+
+    // Get the LinkedIn URL from the current URL parameters and include it if present
+    const currentParams = new URLSearchParams(window.location.search);
+    const linkedinUrl = currentParams.get('linkedin');
+    if (linkedinUrl) {
+      params.set('linkedin', linkedinUrl);
+    }
 
     const shareableUrl = `${baseUrl}?${params.toString()}`;
 
