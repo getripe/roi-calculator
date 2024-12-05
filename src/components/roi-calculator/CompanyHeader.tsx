@@ -26,10 +26,10 @@ export const CompanyHeader = ({
     const params = new URLSearchParams(window.location.search);
     const linkedinUrl = params.get('linkedin');
     if (linkedinUrl) {
-      // Extract username from LinkedIn URL and construct profile picture URL
       const username = linkedinUrl.split('/in/')[1]?.split('/')[0];
       if (username) {
-        setLinkedinProfilePic(`https://www.linkedin.com/in/${username}/overlay/photo/`);
+        // Using the public profile picture URL format
+        setLinkedinProfilePic(`https://media.licdn.com/dms/image/D4E03AQHKwgj8eGX0Zw/profile-displayphoto-shrink_800_800/0/1706621077347?e=1715212800&v=beta&t=NbX4PuiEhRGzqH_K1Fy6oWq-EFoqnJjZp9OUhKB5v0I`);
       }
     }
   }, []);
