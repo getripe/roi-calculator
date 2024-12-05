@@ -78,9 +78,10 @@ const ROICalculator = () => {
         const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height).data;
         if (!imageData) return;
 
-        // First pass: calculate average color
+        // First pass: calculate average color and track non-white pixels
         let totalR = 0, totalG = 0, totalB = 0, totalPixels = 0;
         const colorMap = new Map();
+        let nonWhitePixels = 0;
 
         for (let i = 0; i < imageData.length; i += 4) {
           if (imageData[i + 3] > 128) { // Only consider mostly opaque pixels
@@ -88,29 +89,44 @@ const ROICalculator = () => {
             const g = Math.round(imageData[i + 1] / 32) * 32;
             const b = Math.round(imageData[i + 2] / 32) * 32;
             
-            // Skip white, black, and very light/dark colors
+            // Skip pure white and near-white pixels
             const brightness = (r + g + b) / 3;
-            if (brightness < 20 || brightness > 235) continue;
+            if (brightness > 240) continue;
+
+            // Skip pure black and near-black pixels
+            if (brightness < 20) continue;
 
             totalR += r;
             totalG += g;
             totalB += b;
             totalPixels++;
+            nonWhitePixels++;
 
-            // Also track individual colors for multi-color analysis
+            // Track individual colors for analysis
             const key = `${r},${g},${b}`;
             colorMap.set(key, (colorMap.get(key) || 0) + 1);
           }
         }
 
-        // Calculate average color
+        // If we have very few non-white pixels (indicating a single-color logo),
+        // use the average of non-white pixels
+        if (nonWhitePixels < totalPixels * 0.3) {
+          const avgR = Math.round(totalR / nonWhitePixels);
+          const avgG = Math.round(totalG / nonWhitePixels);
+          const avgB = Math.round(totalB / nonWhitePixels);
+          const singleColor = `#${avgR.toString(16).padStart(2, '0')}${avgG.toString(16).padStart(2, '0')}${avgB.toString(16).padStart(2, '0')}`;
+          setAccentColor(singleColor);
+          return;
+        }
+
+        // For multi-colored logos, continue with the existing logic
         const avgR = Math.round(totalR / totalPixels);
         const avgG = Math.round(totalG / totalPixels);
         const avgB = Math.round(totalB / totalPixels);
         const avgColor = `#${avgR.toString(16).padStart(2, '0')}${avgG.toString(16).padStart(2, '0')}${avgB.toString(16).padStart(2, '0')}`;
 
         // Check if we have multiple prominent colors
-        const colorThreshold = totalPixels * 0.15; // Colors that make up at least 15% of the image
+        const colorThreshold = totalPixels * 0.15;
         const prominentColors = Array.from(colorMap.entries())
           .filter(([_, count]) => count > colorThreshold)
           .map(([color]) => {
@@ -119,10 +135,8 @@ const ROICalculator = () => {
           });
 
         if (prominentColors.length <= 1) {
-          // Single color or no prominent colors - use average
           setAccentColor(avgColor);
         } else {
-          // Multiple colors - find most vibrant
           let mostVibrantColor = null;
           let highestSaturation = 0;
 
@@ -137,7 +151,7 @@ const ROICalculator = () => {
             );
             if (maxDiff < 30) continue;
 
-            // Calculate saturation (simple version)
+            // Calculate saturation
             const max = Math.max(r, g, b);
             const min = Math.min(r, g, b);
             const saturation = max === 0 ? 0 : (max - min) / max;
@@ -148,7 +162,7 @@ const ROICalculator = () => {
             }
           }
 
-          setAccentColor(mostVibrantColor || avgColor); // Fallback to average if no vibrant color found
+          setAccentColor(mostVibrantColor || avgColor);
         }
       } catch (error) {
         console.error('Error extracting color:', error);
