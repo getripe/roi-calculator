@@ -14,16 +14,17 @@ import { useToast } from "@/components/ui/use-toast";
 import { sendToSlack } from "@/utils/slack";
 
 const ROICalculator = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [signups, setSignups] = useState(inputConfig.signups.default);
   const [revenuePerSignup, setRevenuePerSignup] = useState(inputConfig.revenue.default);
   const [closeRate, setCloseRate] = useState("30");
-  const [domain, setDomain] = useState("chargebee.com");
-  const [savedDomain, setSavedDomain] = useState("chargebee.com");
+  const [domain, setDomain] = useState("");
+  const [savedDomain, setSavedDomain] = useState("");
   const [accentColor, setAccentColor] = useState("");
-  const [isColorLoading, setIsColorLoading] = useState(true);
   const { toast } = useToast();
 
   const getCompanyName = (domain: string) => {
+    if (!domain) return "";
     const company = domain.split('.')[0];
     return company.charAt(0).toUpperCase() + company.slice(1);
   };
@@ -39,6 +40,9 @@ const ROICalculator = () => {
     if (companyParam) {
       setDomain(companyParam);
       setSavedDomain(companyParam);
+    } else {
+      setDomain("chargebee.com");
+      setSavedDomain("chargebee.com");
     }
     if (qualifiedParam) {
       setSignups(Number(qualifiedParam));
@@ -52,8 +56,9 @@ const ROICalculator = () => {
   }, []);
 
   useEffect(() => {
+    if (!savedDomain) return;
+
     const extractDominantColor = async (imageUrl: string) => {
-      setIsColorLoading(true);
       try {
         const img = new Image();
         img.crossOrigin = "Anonymous";
@@ -94,7 +99,7 @@ const ROICalculator = () => {
         console.error('Error extracting color:', error);
         setAccentColor("#12ED8A"); // Fallback color
       } finally {
-        setIsColorLoading(false);
+        setIsLoading(false);
       }
     };
 
@@ -146,9 +151,13 @@ const ROICalculator = () => {
     }
   };
 
+  if (isLoading || !savedDomain || !accentColor) {
+    return <div className="min-h-screen bg-gray-50" />;
+  }
+
   return (
     <div className="relative min-h-screen p-4 md:p-8">
-      {!isColorLoading && <BackgroundSVG accentColor={accentColor || "#12ED8A"} />}
+      <BackgroundSVG accentColor={accentColor} />
       <div className="relative z-10 max-w-4xl mx-auto">
         <div className="absolute inset-0 bg-white/25 backdrop-blur-xl rounded-xl -m-4" />
         <Card className="p-6 md:p-8 shadow-xl bg-white/95 backdrop-blur-sm border-0 rounded-xl relative">
