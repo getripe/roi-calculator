@@ -39,7 +39,7 @@ export const CompanyHeader = ({
         </Avatar>
       </div>
       
-      <CardTitle className="text-3xl md:text-4xl font-bold text-left mb-6 text-black">
+      <CardTitle className="text-3xl md:text-4xl font-bold text-left mb-6 text-black pb-4">
         ROI Calculator for {getCompanyName(savedDomain)}
       </CardTitle>
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
