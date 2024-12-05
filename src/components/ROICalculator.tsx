@@ -82,6 +82,7 @@ const ROICalculator = () => {
         let totalR = 0, totalG = 0, totalB = 0, totalPixels = 0;
         const colorMap = new Map();
         let nonWhitePixels = 0;
+        let hasColor = false;
 
         for (let i = 0; i < imageData.length; i += 4) {
           if (imageData[i + 3] > 128) { // Only consider mostly opaque pixels
@@ -96,6 +97,16 @@ const ROICalculator = () => {
             // Skip pure black and near-black pixels
             if (brightness < 20) continue;
 
+            // Check if we have a non-gray color
+            const maxDiff = Math.max(
+              Math.abs(r - g),
+              Math.abs(g - b),
+              Math.abs(b - r)
+            );
+            if (maxDiff > 30) {
+              hasColor = true;
+            }
+
             totalR += r;
             totalG += g;
             totalB += b;
@@ -108,61 +119,54 @@ const ROICalculator = () => {
           }
         }
 
-        // If we have very few non-white pixels (indicating a single-color logo),
-        // use the average of non-white pixels
-        if (nonWhitePixels < totalPixels * 0.3) {
+        // If we have any colored pixels, use their average
+        if (hasColor) {
           const avgR = Math.round(totalR / nonWhitePixels);
           const avgG = Math.round(totalG / nonWhitePixels);
           const avgB = Math.round(totalB / nonWhitePixels);
-          const singleColor = `#${avgR.toString(16).padStart(2, '0')}${avgG.toString(16).padStart(2, '0')}${avgB.toString(16).padStart(2, '0')}`;
-          setAccentColor(singleColor);
-          return;
-        }
+          const avgColor = `#${avgR.toString(16).padStart(2, '0')}${avgG.toString(16).padStart(2, '0')}${avgB.toString(16).padStart(2, '0')}`;
+          
+          // Check if we have multiple prominent colors
+          const colorThreshold = totalPixels * 0.15;
+          const prominentColors = Array.from(colorMap.entries())
+            .filter(([_, count]) => count > colorThreshold)
+            .map(([color]) => {
+              const [r, g, b] = color.split(',').map(Number);
+              return { r, g, b };
+            });
 
-        // For multi-colored logos, continue with the existing logic
-        const avgR = Math.round(totalR / totalPixels);
-        const avgG = Math.round(totalG / totalPixels);
-        const avgB = Math.round(totalB / totalPixels);
-        const avgColor = `#${avgR.toString(16).padStart(2, '0')}${avgG.toString(16).padStart(2, '0')}${avgB.toString(16).padStart(2, '0')}`;
+          if (prominentColors.length <= 1) {
+            setAccentColor(avgColor);
+          } else {
+            let mostVibrantColor = null;
+            let highestSaturation = 0;
 
-        // Check if we have multiple prominent colors
-        const colorThreshold = totalPixels * 0.15;
-        const prominentColors = Array.from(colorMap.entries())
-          .filter(([_, count]) => count > colorThreshold)
-          .map(([color]) => {
-            const [r, g, b] = color.split(',').map(Number);
-            return { r, g, b };
-          });
+            for (const color of prominentColors) {
+              const { r, g, b } = color;
+              
+              // Skip grayish colors
+              const maxDiff = Math.max(
+                Math.abs(r - g),
+                Math.abs(g - b),
+                Math.abs(b - r)
+              );
+              if (maxDiff < 30) continue;
 
-        if (prominentColors.length <= 1) {
-          setAccentColor(avgColor);
-        } else {
-          let mostVibrantColor = null;
-          let highestSaturation = 0;
+              // Calculate saturation
+              const max = Math.max(r, g, b);
+              const min = Math.min(r, g, b);
+              const saturation = max === 0 ? 0 : (max - min) / max;
 
-          for (const color of prominentColors) {
-            const { r, g, b } = color;
-            
-            // Skip grayish colors
-            const maxDiff = Math.max(
-              Math.abs(r - g),
-              Math.abs(g - b),
-              Math.abs(b - r)
-            );
-            if (maxDiff < 30) continue;
-
-            // Calculate saturation
-            const max = Math.max(r, g, b);
-            const min = Math.min(r, g, b);
-            const saturation = max === 0 ? 0 : (max - min) / max;
-
-            if (saturation > highestSaturation) {
-              highestSaturation = saturation;
-              mostVibrantColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+              if (saturation > highestSaturation) {
+                highestSaturation = saturation;
+                mostVibrantColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+              }
             }
-          }
 
-          setAccentColor(mostVibrantColor || avgColor);
+            setAccentColor(mostVibrantColor || avgColor);
+          }
+        } else {
+          setAccentColor("#12ED8A"); // Fallback color if no non-gray colors found
         }
       } catch (error) {
         console.error('Error extracting color:', error);
