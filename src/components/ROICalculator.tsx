@@ -91,6 +91,14 @@ const ROICalculator = () => {
             // Skip white, black, and very light/dark colors
             const brightness = (r + g + b) / 3;
             if (brightness < 20 || brightness > 235) continue;
+
+            // Skip grayish colors where R, G, and B values are too similar
+            const maxDiff = Math.max(
+              Math.abs(r - g),
+              Math.abs(g - b),
+              Math.abs(b - r)
+            );
+            if (maxDiff < 30) continue; // Skip if the color is too gray
             
             const key = `${r},${g},${b}`;
             colorMap.set(key, (colorMap.get(key) || 0) + 1);
