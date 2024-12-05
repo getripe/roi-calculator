@@ -27,6 +27,29 @@ const ROICalculator = () => {
     return company.charAt(0).toUpperCase() + company.slice(1);
   };
 
+  // Handle URL parameters on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const companyParam = params.get('company');
+    const qualifiedParam = params.get('qualified');
+    const contractParam = params.get('contract');
+    const rateParam = params.get('rate');
+
+    if (companyParam) {
+      setDomain(companyParam);
+      setSavedDomain(companyParam);
+    }
+    if (qualifiedParam) {
+      setSignups(Number(qualifiedParam));
+    }
+    if (contractParam) {
+      setRevenuePerSignup(Number(contractParam));
+    }
+    if (rateParam) {
+      setCloseRate(rateParam);
+    }
+  }, []);
+
   useEffect(() => {
     const extractDominantColor = async (imageUrl: string) => {
       try {
