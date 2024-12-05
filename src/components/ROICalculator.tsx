@@ -85,7 +85,7 @@ const ROICalculator = () => {
   }
 
   return (
-    <div className="relative min-h-screen p-4 md:p-8 flex items-center justify-center">
+    <div className="relative min-h-screen p-4 md:p-8 flex items-center justify-center min-h-screen">
       <BackgroundSVG accentColor={accentColor} />
       <div className="relative z-10 w-full max-w-4xl mx-auto">
         <div className="absolute inset-0 bg-white/25 backdrop-blur-xl rounded-xl -m-4" />
