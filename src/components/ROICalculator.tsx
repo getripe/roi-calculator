@@ -78,10 +78,10 @@ const ROICalculator = () => {
         const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height).data;
         if (!imageData) return;
 
-        // Create a map to store color frequencies
+        // First pass: calculate average color
+        let totalR = 0, totalG = 0, totalB = 0, totalPixels = 0;
         const colorMap = new Map();
 
-        // Process each pixel
         for (let i = 0; i < imageData.length; i += 4) {
           if (imageData[i + 3] > 128) { // Only consider mostly opaque pixels
             const r = Math.round(imageData[i] / 32) * 32;     // Quantize to reduce colors
@@ -92,32 +92,64 @@ const ROICalculator = () => {
             const brightness = (r + g + b) / 3;
             if (brightness < 20 || brightness > 235) continue;
 
-            // Skip grayish colors where R, G, and B values are too similar
-            const maxDiff = Math.max(
-              Math.abs(r - g),
-              Math.abs(g - b),
-              Math.abs(b - r)
-            );
-            if (maxDiff < 30) continue; // Skip if the color is too gray
-            
+            totalR += r;
+            totalG += g;
+            totalB += b;
+            totalPixels++;
+
+            // Also track individual colors for multi-color analysis
             const key = `${r},${g},${b}`;
             colorMap.set(key, (colorMap.get(key) || 0) + 1);
           }
         }
 
-        // Find the most frequent color
-        let maxCount = 0;
-        let dominantColor = '#12ED8A'; // Default color
+        // Calculate average color
+        const avgR = Math.round(totalR / totalPixels);
+        const avgG = Math.round(totalG / totalPixels);
+        const avgB = Math.round(totalB / totalPixels);
+        const avgColor = `#${avgR.toString(16).padStart(2, '0')}${avgG.toString(16).padStart(2, '0')}${avgB.toString(16).padStart(2, '0')}`;
 
-        colorMap.forEach((count, color) => {
-          if (count > maxCount) {
-            maxCount = count;
+        // Check if we have multiple prominent colors
+        const colorThreshold = totalPixels * 0.15; // Colors that make up at least 15% of the image
+        const prominentColors = Array.from(colorMap.entries())
+          .filter(([_, count]) => count > colorThreshold)
+          .map(([color]) => {
             const [r, g, b] = color.split(',').map(Number);
-            dominantColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-          }
-        });
+            return { r, g, b };
+          });
 
-        setAccentColor(dominantColor);
+        if (prominentColors.length <= 1) {
+          // Single color or no prominent colors - use average
+          setAccentColor(avgColor);
+        } else {
+          // Multiple colors - find most vibrant
+          let mostVibrantColor = null;
+          let highestSaturation = 0;
+
+          for (const color of prominentColors) {
+            const { r, g, b } = color;
+            
+            // Skip grayish colors
+            const maxDiff = Math.max(
+              Math.abs(r - g),
+              Math.abs(g - b),
+              Math.abs(b - r)
+            );
+            if (maxDiff < 30) continue;
+
+            // Calculate saturation (simple version)
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            const saturation = max === 0 ? 0 : (max - min) / max;
+
+            if (saturation > highestSaturation) {
+              highestSaturation = saturation;
+              mostVibrantColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+            }
+          }
+
+          setAccentColor(mostVibrantColor || avgColor); // Fallback to average if no vibrant color found
+        }
       } catch (error) {
         console.error('Error extracting color:', error);
         setAccentColor("#12ED8A"); // Fallback color
