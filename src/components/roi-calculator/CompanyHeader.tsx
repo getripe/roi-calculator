@@ -3,6 +3,7 @@ import { CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link2 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface CompanyHeaderProps {
   domain: string;
@@ -19,6 +20,20 @@ export const CompanyHeader = ({
   onShare,
   savedDomain
 }: CompanyHeaderProps) => {
+  const [linkedinProfilePic, setLinkedinProfilePic] = useState<string | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const linkedinUrl = params.get('linkedin');
+    if (linkedinUrl) {
+      // Extract username from LinkedIn URL and construct profile picture URL
+      const username = linkedinUrl.split('/in/')[1]?.split('/')[0];
+      if (username) {
+        setLinkedinProfilePic(`https://www.linkedin.com/in/${username}/overlay/photo/`);
+      }
+    }
+  }, []);
+
   const getCompanyName = (domain: string) => {
     if (!domain) return "";
     const company = domain.split('.')[0];
@@ -28,15 +43,26 @@ export const CompanyHeader = ({
   return (
     <CardHeader className="p-0 mb-8">
       <div className="absolute -top-8 -right-4">
-        <Avatar className="w-16 h-16 border-4 border-white shadow-lg bg-white">
-          <AvatarImage 
-            src={`https://www.google.com/s2/favicons?domain=${savedDomain}&sz=128`}
-            alt={`${savedDomain} Logo`}
-          />
-          <AvatarFallback className="bg-primary text-primary-foreground">
-            {savedDomain.substring(0, 2).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+        <div className="relative">
+          {linkedinProfilePic && (
+            <Avatar className="w-16 h-16 absolute -right-1 -top-1">
+              <AvatarImage 
+                src={linkedinProfilePic}
+                alt="LinkedIn Profile"
+              />
+              <AvatarFallback />
+            </Avatar>
+          )}
+          <Avatar className="w-16 h-16 border-4 border-white shadow-lg bg-white relative">
+            <AvatarImage 
+              src={`https://www.google.com/s2/favicons?domain=${savedDomain}&sz=128`}
+              alt={`${savedDomain} Logo`}
+            />
+            <AvatarFallback className="bg-primary text-primary-foreground">
+              {savedDomain.substring(0, 2).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        </div>
       </div>
       
       <CardTitle className="text-3xl md:text-4xl font-bold text-left mb-6 text-black pb-4">
