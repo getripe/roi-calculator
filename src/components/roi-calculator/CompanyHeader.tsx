@@ -28,7 +28,6 @@ export const CompanyHeader = ({
     if (linkedinUrl) {
       const username = linkedinUrl.split('/in/')[1]?.split('/')[0];
       if (username) {
-        // Using the public profile picture URL format
         setLinkedinProfilePic(`https://media.licdn.com/dms/image/D4E03AQHKwgj8eGX0Zw/profile-displayphoto-shrink_800_800/0/1706621077347?e=1715212800&v=beta&t=NbX4PuiEhRGzqH_K1Fy6oWq-EFoqnJjZp9OUhKB5v0I`);
       }
     }
@@ -42,7 +41,7 @@ export const CompanyHeader = ({
 
   return (
     <CardHeader className="p-0 mb-8">
-      <div className="absolute -top-8 -right-4">
+      <div className="absolute -top-12 -right-4">
         <div className="relative">
           {linkedinProfilePic && (
             <Avatar className="w-24 h-24">
@@ -67,7 +66,7 @@ export const CompanyHeader = ({
       </div>
       
       <CardTitle className="text-3xl md:text-4xl font-bold text-left mb-6 text-black pb-4">
-        ROI Calculator for {getCompanyName(savedDomain)}
+        Ripe x {getCompanyName(savedDomain)} ROI
       </CardTitle>
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
         <Input
