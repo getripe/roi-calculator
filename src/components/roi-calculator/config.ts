@@ -46,7 +46,7 @@ export const inputConfig = {
   },
   revenue: {
     default: 2400,
-    max: 10000,
+    max: 25000,
     step: 100
   },
   closeRates: ["20", "30", "40", "50"]  // Keep original order
