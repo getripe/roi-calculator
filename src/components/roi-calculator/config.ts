@@ -8,7 +8,7 @@ export const content = {
   },
   revenue: {
     label: "Revenue per Closed Deal (Average Contract Value)",
-    description: "The average contract value",
+    description: "The average contract value (ARR / year) per closed deal",
     toastTitle: "Updated Revenue per Closed Deal",
     toastDescription: (value: string) => `Revenue per closed deal set to ${value}`,
   },
